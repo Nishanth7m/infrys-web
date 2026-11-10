@@ -1114,16 +1114,16 @@ class GlobeRuntime {
       this.scratchB.copy(this.camera.position).sub(this.scratchA).normalize()
       const facing = this.scratchC.copy(this.scratchA).sub(this.pivotOrigin).normalize().dot(this.scratchB)
 
-      if (facing < 0.06) {
+      if (facing < -0.02) {
         node.style.opacity = "0"
         node.style.visibility = "hidden"
         continue
       }
 
       this.scratchA.project(this.camera)
-      const sx = clamp((this.scratchA.x + 1) * half.x, 110, Math.max(110, this.width - 110))
-      const sy = clamp((1 - this.scratchA.y) * half.y, 32, Math.max(32, this.height - 36))
-      const fade = clamp((facing - 0.04) / 0.14, 0, 1) * this.progress
+      const sx = clamp((this.scratchA.x + 1) * half.x, 145, Math.max(145, this.width - 145))
+      const sy = clamp((1 - this.scratchA.y) * half.y, 34, Math.max(34, this.height - 96))
+      const fade = clamp((facing + 0.02) / 0.16, 0, 1) * this.progress
 
       visible.push({ idx: i, node, sx, sy, fade })
     }
@@ -1131,7 +1131,7 @@ class GlobeRuntime {
     // 2D screen-space collision avoidance so floating labels never overlap one another
     visible.sort((a, b) => a.sy - b.sy)
     const placed: { sx: number; sy: number }[] = []
-    const minDx = 195
+    const minDx = 205
     const minDy = 42
 
     for (const item of visible) {
@@ -1141,9 +1141,10 @@ class GlobeRuntime {
           adjY = prev.sy + minDy
         }
       }
-      adjY = clamp(adjY, 32, Math.max(32, this.height - 36))
+      adjY = clamp(adjY, 34, Math.max(34, this.height - 96))
       placed.push({ sx: item.sx, sy: adjY })
 
+      item.node.dataset.flip = adjY > this.height - 260 ? "1" : "0"
       item.node.style.visibility = "visible"
       item.node.style.opacity = String(item.fade)
       item.node.style.transform = `translate3d(${item.sx.toFixed(1)}px, ${adjY.toFixed(1)}px, 0)`
@@ -1225,21 +1226,26 @@ class GlobeRuntime {
     this.routeLineUniforms.uProgress.value = this.progress
 
     const focus = cfg.focus ?? -1
+    const lockCamera = cfg.lockCamera ?? false
     const target = focus >= 0 ? cfg.places?.[focus] : null
 
-    if (!target && !this.dragging) {
+    if (target && lockCamera) {
+      // Smoothly pan & zoom to target region when selected via domain selector
+      this.spinAngle = -target.lng * DEG
+      this.tiltAngle = target.lat * DEG
+    } else if (target) {
+      // Hovering directly on a globe node freezes rotation in place so it never shifts off the cursor
+      this.flingX = 0
+      this.spinAngle = this.pivot.rotation.y
+      this.tiltAngle = this.pivot.rotation.x
+    } else if (!this.dragging) {
       this.spinAngle += (cfg.spin * 0.016 + (1 - this.progress) * 0.014) * frames
       this.spinAngle += this.flingX * frames
       this.flingX *= Math.pow(0.94, frames)
       this.tiltAngle += (cfg.tilt * DEG - this.tiltAngle) * ease(0.055)
-    } else if (target) {
-      // Freeze the globe rotation immediately while user inspects/clicks a node
-      this.flingX = 0
-      this.spinAngle = this.pivot.rotation.y
-      this.tiltAngle = this.pivot.rotation.x
     }
 
-    const wanted = this.fitScale() * (0.88 + 0.12 * this.progress)
+    const wanted = this.fitScale() * (target ? (lockCamera ? 1.32 : 1.05) : 0.88 + 0.12 * this.progress)
     this.scale += (wanted - this.scale) * ease(0.08)
 
     this.pivot.scale.setScalar(this.scale)
@@ -1633,6 +1639,7 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
   const runtimeRef = useRef<GlobeRuntime | null>(null)
   const nodeRefs = useRef<(HTMLElement | null)[]>([])
   const [focus, setFocus] = useState(-1)
+  const [lockCamera, setLockCamera] = useState(false)
 
   const skin =
     theme === "custom"
@@ -1705,7 +1712,11 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
     editorPlayback,
     places: spots,
     focus,
-    onBackdropPress: () => setFocus(-1),
+    lockCamera,
+    onBackdropPress: () => {
+      setFocus(-1)
+      setLockCamera(false)
+    },
   }
 
   const configRef = useRef(config)
@@ -1789,6 +1800,12 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
             65%  { opacity: 0; }
             100% { transform: translate(-50%, -50%) scale(3);    opacity: 0; }
         }
+        [data-flip="1"] .mg-card-popover {
+          top: auto !important;
+          bottom: 100% !important;
+          padding-top: 0 !important;
+          padding-bottom: 8px !important;
+        }
       `}</style>
       <div ref={hostRef} style={{ position: "absolute", inset: 0, zIndex: 1, touchAction: "none", cursor: "grab" }} />
       <div style={{ position: "absolute", inset: 0, zIndex: 2, overflow: "hidden", pointerEvents: "none" }}>
@@ -1796,6 +1813,7 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
           const open = focus === index
           const accent = spot.accent || skin.accent
           const hasCard = !!(spot.image || spot.body || spot.ctaLabel)
+          const resolvedCardW = Math.max(cardWidth, 272)
           return (
             <div
               key={`${spot.lat},${spot.lng},${index}`}
@@ -1810,7 +1828,7 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                 visibility: "hidden",
                 willChange: "transform, opacity",
                 pointerEvents: "none",
-                zIndex: open ? 3 : 1,
+                zIndex: open ? 10 : 1,
               }}
             >
               {placeMarker === "pin" ? (
@@ -1834,8 +1852,14 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
               ) : (
                 <div
                   className="mg-interactive"
-                  onMouseEnter={() => setFocus(index)}
-                  onMouseLeave={() => setFocus(-1)}
+                  onMouseEnter={() => {
+                    setLockCamera(false)
+                    setFocus(index)
+                  }}
+                  onMouseLeave={() => {
+                    setLockCamera(false)
+                    setFocus(-1)
+                  }}
                   onPointerDown={(event) => {
                     event.stopPropagation()
                   }}
@@ -1843,7 +1867,7 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                     position: "relative",
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "flex-start",
+                    alignItems: "center",
                     width: "max-content",
                     transform: "translate(-50%, -16px)",
                     pointerEvents: "auto",
@@ -1911,26 +1935,31 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                   </Link>
                   {hasCard && (
                     <div
+                      className="mg-card-popover"
                       style={{
                         position: "absolute",
                         top: "100%",
-                        left: 0,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: resolvedCardW,
                         display: "grid",
                         gridTemplateRows: open ? "1fr" : "0fr",
                         paddingTop: open ? 8 : 0,
                         opacity: open ? 1 : 0,
                         pointerEvents: open ? "auto" : "none",
-                        transition: `grid-template-rows 0.35s ${EASE_OUT}, opacity 0.25s ${EASE_OUT}, padding-top 0.35s ${EASE_OUT}`,
+                        transition: `grid-template-rows 0.32s ${EASE_OUT}, opacity 0.24s ${EASE_OUT}, padding-top 0.32s ${EASE_OUT}`,
                         willChange: "grid-template-rows",
+                        zIndex: 20,
                       }}
                     >
-                      <div style={{ overflow: "hidden" }}>
+                      <div style={{ overflow: "hidden", width: "100%" }}>
                         <Link
                           className="mg-interactive"
                           href={spot.ctaLink || "/solutions"}
                           onPointerDown={(e) => e.stopPropagation()}
                           style={{
-                            width: Math.max(cardWidth, 260),
+                            width: "100%",
+                            boxSizing: "border-box",
                             padding: "14px 16px",
                             borderRadius: 10,
                             background: "#161729",
@@ -1943,7 +1972,7 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                             pointerEvents: "auto",
                             cursor: "pointer",
                             transform: open ? "translateY(0)" : "translateY(-6px)",
-                            transition: `transform 0.35s ${EASE_OUT}`,
+                            transition: `transform 0.32s ${EASE_OUT}`,
                           }}
                         >
                           {spot.region && (
@@ -2013,6 +2042,66 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                 </div>
               )}
             </div>
+          )
+        })}
+      </div>
+
+      {/* Bottom Interactive Region/Domain Focus Bar — Restores one-click rotate-and-zoom inspection */}
+      <div
+        className="mg-interactive"
+        onPointerDown={(e) => e.stopPropagation()}
+        style={{
+          position: "absolute",
+          bottom: 18,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 5,
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 6,
+          width: "max-content",
+          maxWidth: "calc(100% - 32px)",
+          padding: "6px 10px",
+          borderRadius: 16,
+          background: "rgba(22, 23, 41, 0.88)",
+          border: "1px solid rgba(203, 208, 217, 0.16)",
+          backdropFilter: "blur(8px)",
+          pointerEvents: "auto",
+        }}
+      >
+        {spots.map((spot, idx) => {
+          const isFocused = focus === idx
+          return (
+            <button
+              key={spot.label}
+              type="button"
+              onClick={() => {
+                if (isFocused && lockCamera) {
+                  setFocus(-1)
+                  setLockCamera(false)
+                } else {
+                  setFocus(idx)
+                  setLockCamera(true)
+                }
+              }}
+              style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: 9.5,
+                fontWeight: 600,
+                letterSpacing: "0.07em",
+                padding: "5px 10px",
+                borderRadius: 999,
+                border: isFocused ? "1px solid #F47117" : "1px solid rgba(203, 208, 217, 0.22)",
+                background: isFocused ? "rgba(244, 113, 23, 0.22)" : "rgba(255, 255, 255, 0.03)",
+                color: isFocused ? "#FFFFFF" : "#CBD0D9",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+                transition: "all 0.2s ease",
+              }}
+            >
+              {spot.label}
+            </button>
           )
         })}
       </div>

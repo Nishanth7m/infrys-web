@@ -692,8 +692,8 @@ export default function Page() {
             HOVER TO INSPECT · CLICK ANY NODE TO EXPLORE DOMAIN ↗
           </p>
         </div>
-        <div style={{ position: 'relative', width: '100%', height: '650px', minHeight: '540px' }}>
-          <AtomicGlobe style={{ width: '100%', height: '100%' }} theme="infrys" routeStyle="pulse" routeWidth={1.5} dotSize={4.5} />
+        <div style={{ position: 'relative', width: '100%', height: '680px', minHeight: '560px' }}>
+          <AtomicGlobe style={{ width: '100%', height: '100%' }} theme="infrys" routeStyle="pulse" routeWidth={1.5} dotSize={4.5} zoom={1.12} offsetY={0.05} />
         </div>
       </section>
 
