@@ -109,7 +109,7 @@ export default function CareersPage() {
             }}
           >
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', marginRight: 8, borderRadius: '50%' }} />
-            CAREERS AT INFRYS / 01
+            CAREERS AT INFRYS
           </p>
 
           <h1
@@ -218,7 +218,7 @@ export default function CareersPage() {
                 marginBottom: 12,
               }}
             >
-              WORKING AT INFRYS / 02
+              WORKING AT INFRYS
             </span>
             <h2
               style={{
@@ -280,7 +280,7 @@ export default function CareersPage() {
                 marginBottom: 12,
               }}
             >
-              PRACTICE AREAS &amp; DISCIPLINES / 03
+              PRACTICE AREAS &amp; DISCIPLINES
             </span>
             <h2
               style={{
@@ -390,7 +390,7 @@ export default function CareersPage() {
                 marginBottom: 12,
               }}
             >
-              OPEN POSITIONS / 04
+              OPEN POSITIONS
             </span>
             <h2
               style={{
@@ -513,7 +513,7 @@ export default function CareersPage() {
                 marginBottom: 12,
               }}
             >
-              APPLICATION PROCESS / 05
+              APPLICATION PROCESS
             </span>
             <h2
               style={{
@@ -558,7 +558,7 @@ export default function CareersPage() {
 
       {/* 06 FINAL CTA */}
       <PageCTA
-        eyebrow="INFRYS CAREERS SIGNAL / 06"
+        eyebrow="JOIN OUR TEAM"
         headingLine1="INTERESTED IN"
         headingLine2="BUILDING WITH US?"
         supportingText="Introduce yourself and share your technical focus in cryptography, offensive security, or compliance engineering."

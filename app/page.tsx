@@ -216,17 +216,17 @@ export default function Page() {
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             <span style={{ color: '#FEF3E5', fontWeight: 600, fontSize: '10px', letterSpacing: '0.14em' }}>
-              INFRYS / MATRIX JUNCTION
+              INFRYS · MATRIX JUNCTION
             </span>
             <span style={{ color: '#8E92A4', fontSize: '9px', letterSpacing: '0.12em' }}>
-              CRYPTOGRAPHIC SYSTEM / <span style={{ color: '#F47117', fontWeight: 600 }}>ACTIVE</span>
+              CRYPTOGRAPHIC SYSTEM · <span style={{ color: '#F47117', fontWeight: 600 }}>ACTIVE</span>
             </span>
           </div>
         </div>
 
         {/* Hero Left Content */}
         <div className="hero-copy" style={{ zIndex: 10, position: 'relative', maxWidth: 580 }}>
-          <Eyebrow color="#CBD0D9">SECURITY TECHNOLOGY / 01</Eyebrow>
+          <Eyebrow color="#CBD0D9">SECURITY TECHNOLOGY</Eyebrow>
           <h1 style={{ color: '#FFFFFF', fontSize: 'clamp(46px, 5.2vw, 84px)', fontWeight: 700, letterSpacing: '-0.06em', lineHeight: 0.94, margin: 0 }}>
             SECURITY<br />
             FOR WHAT&apos;S<br />
@@ -271,7 +271,7 @@ export default function Page() {
 
         <div className="hero-footer" style={{ borderColor: 'rgba(203,208,217,0.18)', color: '#CBD0D9', zIndex: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ font: "400 9px 'IBM Plex Mono', monospace", letterSpacing: '0.14em', paddingLeft: 2 }}>
-            01 — 09
+            INFRYS SECURITY TECHNOLOGIES
           </span>
           <span style={{ font: "500 9px 'IBM Plex Mono', monospace", color: '#F47117', letterSpacing: '0.14em' }}>
             TODAY&apos;S CRYPTOGRAPHY → PQC → CRYPTO-AGILITY
@@ -310,7 +310,7 @@ export default function Page() {
       {/* 02 THE SECURITY LANDSCAPE */}
       <section className="sec-landscape section-rule" id="sec-landscape" style={{ background: '#FEF3E5', color: '#1D1E33' }}>
         <div>
-          <Eyebrow color="#1D1E33">THE SECURITY LANDSCAPE / 02</Eyebrow>
+          <Eyebrow color="#1D1E33">THE SECURITY LANDSCAPE</Eyebrow>
           <h2 style={{ color: '#1D1E33' }}>
             THE SECURITY LANDSCAPE<br />
             <span style={{ color: '#F47117' }}>IS CHANGING.</span>
@@ -357,7 +357,7 @@ export default function Page() {
       {/* 03 OUR SOLUTIONS */}
       <section className="services section-rule" id="solutions" style={{ background: '#1D1E33', color: '#FFFFFF' }}>
         <div>
-          <Eyebrow color="#CBD0D9">OUR SOLUTIONS / 03</Eyebrow>
+          <Eyebrow color="#CBD0D9">OUR SOLUTIONS</Eyebrow>
           <h2 style={{ color: '#FFFFFF' }}>
             Built for the<br />
             <span style={{ color: '#F47117' }}>complexity ahead.</span>
@@ -421,7 +421,7 @@ export default function Page() {
       {/* 04 OUR TECHNOLOGY */}
       <section className="our-technology section-rule" id="technology" style={{ background: '#FEF3E5', color: '#1D1E33' }}>
         <div>
-          <Eyebrow color="#1D1E33">OUR TECHNOLOGY / 04</Eyebrow>
+          <Eyebrow color="#1D1E33">OUR TECHNOLOGY</Eyebrow>
           <h2 style={{ color: '#1D1E33' }}>
             ENGINEERED FOR<br />
             <span style={{ color: '#F47117' }}>MATHEMATICAL TRUST.</span>
@@ -495,7 +495,7 @@ export default function Page() {
       {/* 05 INDUSTRIES WE SUPPORT */}
       <section className="industries section-rule" id="industries" style={{ background: '#1D1E33', color: '#FFFFFF' }}>
         <div>
-          <Eyebrow color="#CBD0D9">SECTOR SPECIALIZATION / 05</Eyebrow>
+          <Eyebrow color="#CBD0D9">SECTOR SPECIALIZATION</Eyebrow>
           <h2 style={{ color: '#FFFFFF' }}>
             SECURITY FOR<br />
             <span style={{ color: '#F47117' }}>COMPLEX ENVIRONMENTS.</span>
@@ -550,7 +550,7 @@ export default function Page() {
       {/* 06 HOW WE WORK */}
       <section className="how-we-work section-rule" id="how-we-work" style={{ background: '#FEF3E5', color: '#1D1E33' }}>
         <div>
-          <Eyebrow color="#1D1E33">ENGAGEMENT PROCESS / 06</Eyebrow>
+          <Eyebrow color="#1D1E33">ENGAGEMENT PROCESS</Eyebrow>
           <h2 style={{ color: '#1D1E33' }}>
             FROM ASSESSMENT<br />
             <span style={{ color: '#F47117' }}>TO RESILIENCE.</span>
@@ -598,7 +598,7 @@ export default function Page() {
       {/* 07 WHY INFRYS — CAPABILITIES & CREDIBILITY */}
       <section className="why-final section-rule" id="why-infrys" style={{ background: '#1D1E33', color: '#FFFFFF' }}>
         <div>
-          <Eyebrow color="#CBD0D9">WHY INFRYS / 07</Eyebrow>
+          <Eyebrow color="#CBD0D9">WHY INFRYS</Eyebrow>
           <h2 style={{ color: '#FFFFFF' }}>
             ENGINEERED FOR<br />
             <span style={{ color: '#F47117' }}>HIGH-TRUST SYSTEMS.</span>
@@ -702,7 +702,7 @@ export default function Page() {
           }}
         >
           <div>
-            <Eyebrow color="#CBD0D9">GLOBAL SECURITY INTELLIGENCE / 08</Eyebrow>
+            <Eyebrow color="#CBD0D9">GLOBAL SECURITY INTELLIGENCE</Eyebrow>
             <h2 style={{ fontSize: 'clamp(32px, 4.2vw, 56px)', margin: 0, fontWeight: 600, letterSpacing: '-0.06em', color: '#FFFFFF', lineHeight: 1.04 }}>
               CONNECTED ENTERPRISE<br />
               <span style={{ color: '#F47117' }}>SECURITY NETWORK.</span>
@@ -729,7 +729,7 @@ export default function Page() {
           position: 'relative',
         }}
       >
-        <Eyebrow color="#FFFFFF">THE INFRYS SIGNAL / 09</Eyebrow>
+        <Eyebrow color="#FFFFFF">CONNECT WITH INFRYS</Eyebrow>
         <h2 style={{ fontSize: 'clamp(48px, 7vw, 96px)', letterSpacing: '-0.08em', lineHeight: 0.88, margin: '20px 0 24px', color: '#FFFFFF', fontWeight: 700 }}>
           READY FOR<br />
           <span style={{ color: '#1D1E33' }}>WHAT&apos;S NEXT?</span>

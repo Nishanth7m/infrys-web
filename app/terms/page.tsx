@@ -60,7 +60,7 @@ export default function TermsPage() {
         <div style={{ maxWidth: 1040, margin: '0 auto' }}>
           <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', marginBottom: 16, fontWeight: 600 }}>
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', marginRight: 8, borderRadius: '50%' }} />
-            LEGAL &amp; GOVERNANCE / TERMS OF USE
+            LEGAL &amp; GOVERNANCE
           </p>
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.05, margin: '0 0 20px', color: '#FFFFFF' }}>
             TERMS OF <span style={{ color: '#F47117' }}>USE.</span>

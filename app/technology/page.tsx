@@ -47,7 +47,7 @@ interface TechDomainSpec {
 const TECH_DOMAINS_SPECS: TechDomainSpec[] = [
   {
     id: 'cryptography',
-    eyebrow: 'INFRYS CRYPTOGRAPHY / DOMAIN 01',
+    eyebrow: 'CRYPTOGRAPHY · FOUNDATIONAL SYSTEMS',
     titleLine1: 'TRUST IN THE',
     titleHighlight: 'MATHEMATICS.',
     subtitle:
@@ -105,7 +105,7 @@ const TECH_DOMAINS_SPECS: TechDomainSpec[] = [
   },
   {
     id: 'post-quantum-cryptography',
-    eyebrow: 'INFRYS PQC TECHNOLOGY / DOMAIN 02',
+    eyebrow: 'POST-QUANTUM CRYPTOGRAPHY · NIST FIPS',
     titleLine1: 'PREPARE BEFORE THE',
     titleHighlight: 'THREAT ARRIVES.',
     subtitle:
@@ -163,7 +163,7 @@ const TECH_DOMAINS_SPECS: TechDomainSpec[] = [
   },
   {
     id: 'crypto-agility',
-    eyebrow: 'INFRYS CRYPTO-AGILITY / DOMAIN 03',
+    eyebrow: 'CRYPTO-AGILITY · ABSTRACTION BROKERS',
     titleLine1: 'DECOUPLE CRYPTOGRAPHY',
     titleHighlight: 'FROM APPLICATION CODE.',
     subtitle:
@@ -221,7 +221,7 @@ const TECH_DOMAINS_SPECS: TechDomainSpec[] = [
   },
   {
     id: 'security-architecture',
-    eyebrow: 'INFRYS SECURITY ARCHITECTURE / DOMAIN 04',
+    eyebrow: 'SECURITY ARCHITECTURE · 7-LAYER DEFENSE',
     titleLine1: 'ENGINEER SECURITY AS A',
     titleHighlight: 'LIVING SYSTEM.',
     subtitle:
@@ -309,7 +309,7 @@ export default function TechnologyPage() {
                 }}
               >
                 <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', borderRadius: '50%' }} />
-                WHY THE TRANSITION MATTERS / HNDL EXPOSURE
+                WHY THE TRANSITION MATTERS · HNDL EXPOSURE
               </p>
               <h2
                 style={{
@@ -586,7 +586,7 @@ export default function TechnologyPage() {
 
       {/* 10 FINAL CTA (ORANGE #F47117) */}
       <PageCTA
-        eyebrow="INFRYS TECHNOLOGY SIGNAL / 10"
+        eyebrow="CRYPTOGRAPHIC ENGINEERING"
         headingLine1="READY TO BUILD FOR"
         headingLine2="WHAT'S NEXT?"
         supportingText="Start a conversation with Infrys security engineers and post-quantum specialists."

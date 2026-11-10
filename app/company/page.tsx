@@ -95,7 +95,7 @@ export default function CompanyPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#CBD0D9', letterSpacing: '0.14em', marginBottom: 16, fontWeight: 600 }}>
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', marginRight: 8, borderRadius: '50%' }} />
-            COMPANY &amp; CAPABILITIES / 01
+            COMPANY &amp; CAPABILITIES
           </p>
 
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 700, letterSpacing: '-0.06em', lineHeight: 1.05, margin: '0 0 24px', color: '#FFFFFF' }}>
@@ -167,7 +167,7 @@ export default function CompanyPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 'clamp(28px, 5vw, 60px)' }}>
           <div>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              ABOUT INFRYS / 02
+              ABOUT INFRYS
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: 0, color: '#1D1E33' }}>
               ARCHITECTING TRUST IN AN ERA OF <span style={{ color: '#F47117' }}>QUANTUM CHANGE.</span>
@@ -199,7 +199,7 @@ export default function CompanyPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 48 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              FOUNDATIONAL CAPABILITIES / 03
+              FOUNDATIONAL CAPABILITIES
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: 0, color: '#FFFFFF' }}>
               CORE ENGINEERING <span style={{ color: '#F47117' }}>PILLARS.</span>
@@ -261,7 +261,7 @@ export default function CompanyPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 48 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              ENGAGEMENT PROCESS / 05
+              ENGAGEMENT PROCESS
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: '0 0 16px', color: '#FFFFFF' }}>
               FROM ASSESSMENT TO <span style={{ color: '#F47117' }}>RESILIENCE.</span>
@@ -320,7 +320,7 @@ export default function CompanyPage() {
         >
           <div>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              CAREERS AT INFRYS / 06
+              CAREERS AT INFRYS
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: '0 0 16px', color: '#1D1E33' }}>
               JOIN OUR SECURITY <span style={{ color: '#F47117' }}>ENGINEERING TEAM.</span>
@@ -390,7 +390,7 @@ export default function CompanyPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 44 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              GLOBAL PRESENCE &amp; HEADQUARTERS / 07
+              GLOBAL PRESENCE &amp; HEADQUARTERS
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: 0, color: '#FFFFFF' }}>
               OUR ENGINEERING <span style={{ color: '#F47117' }}>HEADQUARTERS.</span>
@@ -442,7 +442,7 @@ export default function CompanyPage() {
 
       {/* 08 FINAL CTA */}
       <PageCTA
-        eyebrow="INFRYS COMPANY SIGNAL / 08"
+        eyebrow="WORK WITH INFRYS"
         headingLine1="PARTNER WITH"
         headingLine2="INFRYS ENGINEERS."
         supportingText="Initiate a technical conversation on offensive security, regulatory compliance, or post-quantum cryptographic migration."

@@ -57,7 +57,7 @@ export function EngineeringPrinciples({ sectionNumber = '04' }: { sectionNumber?
             }}
           >
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', borderRadius: '50%' }} />
-            ENGINEERING PRINCIPLES / {sectionNumber}
+            ENGINEERING PRINCIPLES
           </p>
 
           <h2
@@ -89,7 +89,7 @@ export function EngineeringPrinciples({ sectionNumber = '04' }: { sectionNumber?
               }}
             >
               <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, color: '#F47117', fontWeight: 600 }}>
-                PRINCIPLE / {p.num}
+                PRINCIPLE {p.num}
               </span>
 
               <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 20, color: '#1D1E33', margin: '10px 0 8px', fontWeight: 700 }}>

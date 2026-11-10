@@ -216,7 +216,7 @@ export function EnterpriseHeader() {
         >
           <div style={{ borderRight: '1px solid rgba(29, 30, 51, 0.15)', paddingRight: 32 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: '#F47117', letterSpacing: '0.12em', display: 'block', marginBottom: 12, fontWeight: 500 }}>
-              CATEGORY / {activeMenu}
+              {activeMenu}
             </span>
             <h4 style={{ margin: '0 0 16px', fontSize: 18, color: '#1D1E33', fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
               Enterprise {activeMenu.toLowerCase()} engineered for what’s next.

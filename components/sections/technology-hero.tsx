@@ -54,7 +54,7 @@ export function TechnologyHero() {
             }}
           >
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', borderRadius: '50%' }} />
-            INFRYS TECHNOLOGY / 01
+            TECHNOLOGY PLATFORM
           </p>
 
           <h1

@@ -46,7 +46,7 @@ const SOLUTIONS_DATA: SolutionSectionSpec[] = [
     id: 'vapt',
     num: '01',
     kicker: 'ASSESS',
-    eyebrow: 'INFRYS OFFENSIVE SECURITY / SOLUTION 01',
+    eyebrow: 'OFFENSIVE SECURITY · VAPT',
     title: 'Vulnerability Assessment & Penetration Testing (VAPT)',
     headline: 'Find attack paths before adversaries do.',
     titleLine1: 'FIND ATTACK PATHS',
@@ -113,7 +113,7 @@ const SOLUTIONS_DATA: SolutionSectionSpec[] = [
     id: 'grc',
     num: '02',
     kicker: 'GOVERN',
-    eyebrow: 'INFRYS COMPLIANCE & RISK / SOLUTION 02',
+    eyebrow: 'COMPLIANCE & RISK · GRC',
     title: 'Governance, Risk & Compliance (GRC)',
     headline: 'Turn complex mandates into audit-ready posture.',
     titleLine1: 'TURN OBLIGATIONS INTO',
@@ -180,7 +180,7 @@ const SOLUTIONS_DATA: SolutionSectionSpec[] = [
     id: 'cryptography-pqc',
     num: '03',
     kicker: 'TRANSFORM',
-    eyebrow: 'INFRYS CRYPTOGRAPHIC MODERNIZATION / SOLUTION 03',
+    eyebrow: 'CRYPTOGRAPHIC MODERNIZATION · PQC',
     title: 'Cryptography & Post-Quantum Cryptography',
     headline: 'Migrate legacy encryption to quantum-resistant lattice standards.',
     titleLine1: 'MIGRATE LEGACY ENCRYPTION TO',
@@ -247,7 +247,7 @@ const SOLUTIONS_DATA: SolutionSectionSpec[] = [
     id: 'managed-security',
     num: '04',
     kicker: 'PROTECT',
-    eyebrow: 'INFRYS MANAGED DEFENSE / SOLUTION 04',
+    eyebrow: 'MANAGED DEFENSE · 24/7 SOC',
     title: 'Managed Security Services',
     headline: 'Continuous security intelligence and 24/7 incident response.',
     titleLine1: 'CONTINUOUS INTELLIGENCE &',
@@ -329,7 +329,7 @@ export default function SolutionsPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#CBD0D9', letterSpacing: '0.14em', marginBottom: 16, fontWeight: 600 }}>
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', marginRight: 8, borderRadius: '50%' }} />
-            ENTERPRISE SOLUTIONS / 01
+            ENTERPRISE SOLUTIONS
           </p>
 
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 700, letterSpacing: '-0.06em', lineHeight: 1.05, margin: '0 0 24px', color: '#FFFFFF' }}>
@@ -393,7 +393,7 @@ export default function SolutionsPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 'clamp(28px, 5vw, 60px)' }}>
           <div>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              PROACTIVE GOVERNANCE / 02
+              PROACTIVE GOVERNANCE
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: 0, color: '#1D1E33' }}>
               SECURITY IS NOT A<br />
@@ -423,7 +423,7 @@ export default function SolutionsPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 48 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#CBD0D9', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              FOUR ENTERPRISE SOLUTIONS / 03
+              FOUR ENTERPRISE SOLUTIONS
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(34px, 4.5vw, 56px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.05, margin: 0, color: '#FFFFFF' }}>
               OUR SOLUTION DIRECTORY.
@@ -689,7 +689,7 @@ export default function SolutionsPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 44 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              ARCHITECTURE, SECTORS &amp; DELIVERY / 08
+              ARCHITECTURE, SECTORS &amp; DELIVERY
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: 0, color: '#1D1E33' }}>
               EXPLORE THE <span style={{ color: '#F47117' }}>ECOSYSTEM.</span>
@@ -757,7 +757,7 @@ export default function SolutionsPage() {
 
       {/* 09 FINAL CTA (ORANGE #F47117) */}
       <PageCTA
-        eyebrow="INFRYS SOLUTIONS SIGNAL / 09"
+        eyebrow="ENTERPRISE SECURITY SOLUTIONS"
         headingLine1="READY TO ELEVATE YOUR"
         headingLine2="SECURITY POSTURE?"
         supportingText="Connect with Infrys security engineers to schedule an initial vulnerability assessment, GRC readiness review, or PQC discovery."

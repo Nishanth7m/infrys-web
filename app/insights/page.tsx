@@ -183,7 +183,7 @@ export default function InsightsPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#CBD0D9', letterSpacing: '0.14em', marginBottom: 16, fontWeight: 600 }}>
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', marginRight: 8, borderRadius: '50%' }} />
-            INSIGHTS &amp; RESEARCH / 01
+            INSIGHTS &amp; RESEARCH
           </p>
 
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 700, letterSpacing: '-0.06em', lineHeight: 1.05, margin: '0 0 24px', color: '#FFFFFF' }}>
@@ -198,11 +198,11 @@ export default function InsightsPage() {
           {/* TOPIC FILTER ANCHOR BAR */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
             {[
-              { label: '01 / EDITORIAL RESEARCH', href: '#research', icon: FileText },
-              { label: '02 / PQC MIGRATION GUIDES', href: '#pqc', icon: Shield },
-              { label: '03 / SECURITY FRAMEWORKS', href: '#frameworks', icon: Layers },
-              { label: '04 / GRC & STANDARDS', href: '#grc', icon: Scale },
-              { label: '05 / PUBLICATIONS & BRIEFS', href: '#resources', icon: BookOpen },
+              { label: 'EDITORIAL RESEARCH', href: '#research', icon: FileText },
+              { label: 'PQC MIGRATION GUIDES', href: '#pqc', icon: Shield },
+              { label: 'SECURITY FRAMEWORKS', href: '#frameworks', icon: Layers },
+              { label: 'GRC & STANDARDS', href: '#grc', icon: Scale },
+              { label: 'PUBLICATIONS & BRIEFS', href: '#resources', icon: BookOpen },
             ].map((tab) => {
               const Icon = tab.icon
               return (
@@ -248,7 +248,7 @@ export default function InsightsPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 48 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              EDITORIAL RESEARCH / 02
+              EDITORIAL RESEARCH
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.06, margin: 0, color: '#FFFFFF' }}>
               TECHNICAL RESEARCH &amp; <span style={{ color: '#F47117' }}>ANALYSIS.</span>
@@ -338,7 +338,7 @@ export default function InsightsPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 48 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              PQC MIGRATION GUIDES / 03
+              PQC MIGRATION GUIDES
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: '0 0 16px', color: '#1D1E33' }}>
               ENTERPRISE PQC <span style={{ color: '#F47117' }}>MIGRATION ROADMAP.</span>
@@ -409,7 +409,7 @@ export default function InsightsPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 48 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              PROOF &amp; REFERENCE FRAMEWORKS / 04
+              PROOF &amp; REFERENCE FRAMEWORKS
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: 0, color: '#FFFFFF' }}>
               SECURITY IN <span style={{ color: '#F47117' }}>PRACTICE.</span>
@@ -515,7 +515,7 @@ export default function InsightsPage() {
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', gap: 20, marginBottom: 44 }}>
             <div>
               <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-                GRC &amp; STANDARDS ALIGNMENT / 05
+                GRC &amp; STANDARDS ALIGNMENT
               </span>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: 0, color: '#1D1E33' }}>
                 STANDARDS &amp; <span style={{ color: '#F47117' }}>COMPLIANCE BRIEFS.</span>
@@ -578,7 +578,7 @@ export default function InsightsPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 44 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              PUBLICATIONS &amp; BRIEFS / 06
+              PUBLICATIONS &amp; BRIEFS
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: 0, color: '#FFFFFF' }}>
               ENTERPRISE <span style={{ color: '#F47117' }}>RESOURCES.</span>
@@ -631,7 +631,7 @@ export default function InsightsPage() {
 
       {/* 07 FINAL CTA */}
       <PageCTA
-        eyebrow="INFRYS RESEARCH SIGNAL / 07"
+        eyebrow="TECHNICAL BRIEFINGS"
         headingLine1="SCHEDULE A TECHNICAL"
         headingLine2="PQC BRIEFING."
         supportingText="Request a tailored executive or engineering briefing on post-quantum readiness and crypto-agile architecture."

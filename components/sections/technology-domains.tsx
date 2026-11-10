@@ -66,7 +66,7 @@ export function TechnologyDomains() {
             }}
           >
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', borderRadius: '50%' }} />
-            FOUR TECHNOLOGY DOMAINS / 03
+            CORE TECHNOLOGY DOMAINS
           </p>
 
           <h2

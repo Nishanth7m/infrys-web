@@ -265,7 +265,7 @@ export default function IndustriesPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#CBD0D9', letterSpacing: '0.14em', marginBottom: 16, fontWeight: 600 }}>
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', marginRight: 8, borderRadius: '50%' }} />
-            SECTOR SPECIALIZATION / 01
+            SECTOR SPECIALIZATION
           </p>
 
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 700, letterSpacing: '-0.06em', lineHeight: 1.05, margin: '0 0 24px', color: '#FFFFFF' }}>
@@ -338,7 +338,7 @@ export default function IndustriesPage() {
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ marginBottom: 48 }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-              SEVEN INDUSTRY SPECIALIZATIONS / 02
+              SEVEN INDUSTRY SPECIALIZATIONS
             </span>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(32px, 4.2vw, 54px)', fontWeight: 700, letterSpacing: '-0.05em', lineHeight: 1.08, margin: 0, color: '#1D1E33' }}>
               INDUSTRIES WE <span style={{ color: '#F47117' }}>SUPPORT.</span>
@@ -580,7 +580,7 @@ export default function IndustriesPage() {
 
       {/* 10 FINAL CTA */}
       <PageCTA
-        eyebrow="INFRYS SECTOR SIGNAL / 10"
+        eyebrow="SECTOR ADVISORY"
         headingLine1="PROTECT YOUR"
         headingLine2="CRITICAL SYSTEMS."
         supportingText="Connect with Infrys sector engineers to align your cryptographic and security posture with regulatory mandates."

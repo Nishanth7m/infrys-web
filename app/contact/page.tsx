@@ -31,7 +31,7 @@ export default function ContactPage() {
           <div style={{ maxWidth: 800 }}>
             <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', marginBottom: 16, fontWeight: 600 }}>
               <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', marginRight: 8, borderRadius: '50%' }} />
-              CONTACT INFRYS / 01
+              CONTACT INFRYS
             </p>
             <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(40px, 5.5vw, 72px)', fontWeight: 700, letterSpacing: '-0.06em', lineHeight: 1.05, margin: 0, color: '#FFFFFF' }}>
               TALK TO A<br />
@@ -131,7 +131,7 @@ export default function ContactPage() {
 
       {/* 03 FINAL CTA */}
       <PageCTA
-        eyebrow="THE INFRYS SIGNAL / 03"
+        eyebrow="ENTERPRISE ADVISORY"
         headingLine1="READY FOR"
         headingLine2="WHAT'S NEXT?"
         supportingText="Prefer direct email? Reach our enterprise security desk directly at info@infrys.com."

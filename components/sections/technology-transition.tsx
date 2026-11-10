@@ -77,7 +77,7 @@ export function TechnologyTransition() {
             }}
           >
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', borderRadius: '50%' }} />
-            CRYPTOGRAPHIC TRANSITION / 04
+            CRYPTOGRAPHIC TRANSITION
           </p>
 
           <h2
@@ -179,7 +179,7 @@ export function TechnologyTransition() {
                   fontWeight: 600,
                 }}
               >
-                PHASE 0{activeStep + 1} INSPECTOR / {steps[activeStep].title}
+                STAGE 0{activeStep + 1} · {steps[activeStep].title}
               </span>
 
               <h3

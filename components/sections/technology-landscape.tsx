@@ -60,7 +60,7 @@ export function TechnologyLandscape() {
               }}
             >
               <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', borderRadius: '50%' }} />
-              THE TECHNOLOGY LANDSCAPE / 02
+              TECHNOLOGY LANDSCAPE
             </p>
 
             <h2
@@ -124,7 +124,7 @@ export function TechnologyLandscape() {
                     marginBottom: 12,
                   }}
                 >
-                  SYSTEM PILLAR / {pillar.num}
+                  CORE PILLAR {pillar.num}
                 </span>
                 <h3
                   style={{

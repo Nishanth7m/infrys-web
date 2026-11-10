@@ -60,7 +60,7 @@ export function TechnologyPathways() {
             }}
           >
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', borderRadius: '50%' }} />
-            PUT TECHNOLOGY INTO PRACTICE / 09
+            PUT TECHNOLOGY INTO PRACTICE
           </p>
 
           <h2
