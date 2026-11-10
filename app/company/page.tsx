@@ -432,8 +432,8 @@ export default function CompanyPage() {
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#CBD0D9', lineHeight: 1.7, margin: '0 0 16px' }}>
                 Speak directly with our enterprise security desk:
               </p>
-              <a href="tel:+919916800685" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, color: '#FEF3E5', fontWeight: 600, textDecoration: 'none' }}>
-                +91 9916800685
+              <a href="tel:+919042790110" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, color: '#FEF3E5', fontWeight: 600, textDecoration: 'none' }}>
+                +91 9042790110
               </a>
             </div>
           </div>

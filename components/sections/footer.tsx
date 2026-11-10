@@ -308,7 +308,7 @@ export function EnterpriseFooter() {
               TELEPHONE SUPPORT
             </span>
             <a
-              href="tel:+919916800685"
+              href="tel:+919042790110"
               style={{
                 fontFamily: "'Inter', sans-serif",
                 fontSize: 14,
@@ -320,7 +320,7 @@ export function EnterpriseFooter() {
               onMouseEnter={(e) => (e.currentTarget.style.color = '#F47117')}
               onMouseLeave={(e) => (e.currentTarget.style.color = '#1D1E33')}
             >
-              +91 9916800685
+              +91 9042790110
             </a>
           </div>
 
