@@ -293,7 +293,7 @@ export default function TechnologyPage() {
         }}
       >
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 56, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 'clamp(28px, 5vw, 56px)', alignItems: 'center' }}>
             <div>
               <p
                 style={{
@@ -378,7 +378,7 @@ export default function TechnologyPage() {
           >
             <div style={{ maxWidth: 1280, margin: '0 auto' }}>
               {/* DOMAIN HEADER & OVERVIEW */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 60, marginBottom: 60 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 'clamp(28px, 5vw, 60px)', marginBottom: 60 }}>
                 <div>
                   <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 14 }}>
                     {spec.eyebrow}
@@ -418,7 +418,7 @@ export default function TechnologyPage() {
               {/* ENGINEERING CAPABILITIES */}
               <div style={{ marginBottom: 48 }}>
                 <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 20 }}>
-                  ENGINEERING CAPABILITIES // {spec.id.toUpperCase()}
+                  ENGINEERING CAPABILITIES · {spec.id.toUpperCase()}
                 </span>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
                   {spec.keyCapabilities.map((cap) => (

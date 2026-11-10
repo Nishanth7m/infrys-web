@@ -97,7 +97,7 @@ const PQC_MIGRATION_GUIDES = [
 const REFERENCE_FRAMEWORKS = [
   {
     id: 'cryptography',
-    category: 'SECURITY FRAMEWORKS // CRYPTOGRAPHY & PQC',
+    category: 'SECURITY FRAMEWORKS · CRYPTOGRAPHY & PQC',
     title: 'Post-Quantum Migration Approach for High-Frequency Transactional Systems',
     challenge:
       'High-value transactional data with multi-decade confidentiality requirements exposed to Harvest-Now-Decrypt-Later (HNDL) interception across external TLS gateways.',
@@ -112,7 +112,7 @@ const REFERENCE_FRAMEWORKS = [
   },
   {
     id: 'security-architecture',
-    category: 'SELECTED SECURITY APPROACHES // CRYPTO-AGILITY',
+    category: 'SECURITY APPROACHES · CRYPTO-AGILITY',
     title: 'Crypto-Agile Abstraction & Broker Pattern for Enterprise Services',
     challenge:
       'Tightly coupled application code directly invoking legacy RSA-2048 and ECDSA primitives across distributed cloud microservices.',
@@ -129,12 +129,12 @@ const REFERENCE_FRAMEWORKS = [
 
 const GRC_STANDARDS_BRIEFS = [
   {
-    code: 'NIST CSF 2.0 // GOVERN & PROTECT',
+    code: 'NIST CSF 2.0 · GOVERN & PROTECT',
     title: 'Enterprise Cryptographic Governance & Risk Oversight',
     desc: 'Aligning board-level cybersecurity risk management with continuous cryptographic asset inventory, policy enforcement, and supply chain key assurance.',
   },
   {
-    code: 'ISO/IEC 27001:2022 // ANNEX A.8.24',
+    code: 'ISO/IEC 27001:2022 · ANNEX A.8.24',
     title: 'Use of Cryptography & Key Lifecycle Controls',
     desc: 'Auditable policy frameworks governing key generation, split-knowledge custody, rotation schedules, archival destruction, and HSM access control.',
   },

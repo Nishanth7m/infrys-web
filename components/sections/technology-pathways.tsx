@@ -6,28 +6,28 @@ import { ArrowUpRight } from 'lucide-react'
 export function TechnologyPathways() {
   const pathways = [
     {
-      kicker: 'SOLUTIONS // CRYPTOGRAPHY & PQC',
+      kicker: 'SOLUTIONS · CRYPTOGRAPHY & PQC',
       title: 'POST-QUANTUM MIGRATION SERVICES',
       desc: 'Discover cryptographic dependencies, deploy hybrid ML-KEM / ML-DSA key exchange, and modernize enterprise HSMs.',
       href: '/solutions#cryptography-pqc',
       cta: 'EXPLORE PQC SOLUTIONS',
     },
     {
-      kicker: 'SOLUTIONS // OFFENSIVE SECURITY',
+      kicker: 'SOLUTIONS · OFFENSIVE SECURITY',
       title: 'VULNERABILITY ASSESSMENT & PENETRATION TESTING',
       desc: 'Validate application, API, cloud, and cryptographic implementations against real-world adversarial exploit chains.',
       href: '/solutions#vapt',
       cta: 'EXPLORE VAPT SOLUTIONS',
     },
     {
-      kicker: 'INDUSTRIES // SECTOR ARCHITECTURE',
+      kicker: 'INDUSTRIES · SECTOR ARCHITECTURE',
       title: 'INDUSTRY-SPECIFIC SECURITY ARCHITECTURES',
       desc: 'See how Infrys applies cryptographic resilience across Financial Services, Healthcare, Telecom, Government, and Critical Infrastructure.',
       href: '/industries',
       cta: 'EXPLORE 7 INDUSTRIES',
     },
     {
-      kicker: 'INSIGHTS // TECHNICAL ROADMAPS',
+      kicker: 'INSIGHTS · TECHNICAL ROADMAPS',
       title: 'PQC MIGRATION GUIDES & RESEARCH BRIEFS',
       desc: 'Read our four-stage CBOM discovery, HNDL prioritization, and crypto-agile broker implementation guides.',
       href: '/insights#pqc',

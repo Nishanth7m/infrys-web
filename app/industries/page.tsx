@@ -404,10 +404,10 @@ export default function IndustriesPage() {
             }}
           >
             <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 56, marginBottom: 48 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 'clamp(28px, 5vw, 56px)', marginBottom: 48 }}>
                 <div>
                   <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 12 }}>
-                    SECTOR {ind.num} // {ind.kicker}
+                    SECTOR {ind.num} · {ind.kicker}
                   </span>
                   <h2
                     style={{

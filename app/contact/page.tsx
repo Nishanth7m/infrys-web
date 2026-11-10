@@ -51,7 +51,7 @@ export default function ContactPage() {
             maxWidth: 1280,
             margin: '0 auto',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
             gap: 48,
             alignItems: 'start',
           }}

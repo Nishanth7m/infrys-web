@@ -66,7 +66,7 @@ export function TechnologyArchitecture() {
         INTERACTIVE 7-LAYER ENTERPRISE SECURITY ARCHITECTURE INSPECTOR
       </span>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 'clamp(24px, 4vw, 32px)' }}>
         {/* LAYERS LIST (SEMANTIC BUTTONS) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {architectureLayers.map((layer, idx) => {

@@ -202,7 +202,7 @@ export default function CareersPage() {
             maxWidth: 1280,
             margin: '0 auto',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
             gap: 60,
           }}
         >
@@ -416,7 +416,7 @@ export default function CareersPage() {
               borderRadius: 8,
               padding: '40px 36px',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
               gap: 36,
               alignItems: 'center',
             }}

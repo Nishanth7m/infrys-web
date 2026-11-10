@@ -205,7 +205,7 @@ export function ContactEnquiryForm() {
     >
       <div style={{ marginBottom: 28 }}>
         <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#F47117', letterSpacing: '0.14em', fontWeight: 600, display: 'block', marginBottom: 8 }}>
-          ENTERPRISE SECURITY ENQUIRY // DIRECT DISPATCH
+          ENTERPRISE SECURITY ENQUIRY · DIRECT DISPATCH
         </span>
         <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(26px, 3.2vw, 36px)', color: '#1D1E33', margin: '0 0 10px', fontWeight: 700, letterSpacing: '-0.03em' }}>
           Schedule a Technical Consultation

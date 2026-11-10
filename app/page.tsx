@@ -244,6 +244,26 @@ export default function Page() {
               ↓
             </a>
           </div>
+
+          {/* Mobile-legible Cryptographic Pillars (Desktop uses the interactive HUD around the core) */}
+          <div className="infrys-mobile-tech-nodes">
+            {[
+              { num: '01', title: 'CRYPTOGRAPHY', sub: 'Algorithm · Keys · Trust', href: '/technology#cryptography' },
+              { num: '02', title: 'PQC READINESS', sub: 'NIST FIPS 203 / 204 / 205 · ML-KEM · ML-DSA', href: '/technology#post-quantum-cryptography' },
+              { num: '03', title: 'CRYPTO-AGILITY', sub: 'Adapt · Migrate · Evolve', href: '/technology#crypto-agility' },
+            ].map((node) => (
+              <a key={node.num} href={node.href} className="infrys-mobile-tech-card">
+                <div>
+                  <div className="infrys-mobile-tech-title">
+                    <span>{node.num}</span>
+                    <strong>{node.title}</strong>
+                  </div>
+                  <div className="infrys-mobile-tech-sub">{node.sub}</div>
+                </div>
+                <ArrowUpRight size={15} style={{ color: '#F47117', flexShrink: 0 }} />
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Right Column / Mobile Stage Spacer for Hero Balance */}
@@ -281,7 +301,7 @@ export default function Page() {
             }}
           >
             <span style={{ color: '#F47117', marginRight: 8 }}>●</span>
-            STANDARDIZED ARCHITECTURE // GLOBAL SECURITY &amp; PQC COMPLIANCE FRAMEWORKS
+            GLOBAL SECURITY &amp; PQC COMPLIANCE FRAMEWORKS
           </p>
         </div>
         <Logo3DCarousel itemHeight={48} speed={36} gap={48} minScale={0.35} maxScale={1.65} />
@@ -692,7 +712,7 @@ export default function Page() {
             DRAG TO ROTATE · HOVER OR CLICK NODE TO INSPECT
           </p>
         </div>
-        <div style={{ position: 'relative', width: '100%', height: '680px', minHeight: '560px' }}>
+        <div className="globe-stage-wrap" style={{ position: 'relative', width: '100%', height: '680px', minHeight: '440px' }}>
           <AtomicGlobe style={{ width: '100%', height: '100%' }} theme="infrys" routeStyle="pulse" routeWidth={1.5} dotSize={4.5} zoom={1.12} offsetY={0.05} />
         </div>
       </section>

@@ -88,12 +88,12 @@ export const DEFAULT_INFRYS_STANDARDS: LogoItem[] = [
   {
     name: 'NIST FIPS 203',
     sub: 'STANDARDIZED PQC',
-    image: createStandardBadgeSvg('FIPS 203 // ML-KEM', 'NIST STANDARDIZED', 'lattice'),
+    image: createStandardBadgeSvg('FIPS 203 · ML-KEM', 'NIST STANDARDIZED', 'lattice'),
   },
   {
     name: 'NIST FIPS 204',
     sub: 'DIGITAL SIGNATURES',
-    image: createStandardBadgeSvg('FIPS 204 // ML-DSA', 'LATTICE SIGNATURES', 'key'),
+    image: createStandardBadgeSvg('FIPS 204 · ML-DSA', 'LATTICE SIGNATURES', 'key'),
   },
   {
     name: 'FIPS 140-3',
@@ -133,7 +133,7 @@ export const DEFAULT_INFRYS_STANDARDS: LogoItem[] = [
   {
     name: 'NIST FIPS 205',
     sub: 'HASH STATELESS PQC',
-    image: createStandardBadgeSvg('FIPS 205 // SLH-DSA', 'STATELESS HASH PQC', 'lattice'),
+    image: createStandardBadgeSvg('FIPS 205 · SLH-DSA', 'STATELESS HASH PQC', 'lattice'),
   },
   {
     name: 'CSA QUANTUM',

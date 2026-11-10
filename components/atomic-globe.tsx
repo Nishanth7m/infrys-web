@@ -1121,9 +1121,10 @@ class GlobeRuntime {
       }
 
       this.scratchA.project(this.camera)
-      const sx = clamp((this.scratchA.x + 1) * half.x, 145, Math.max(145, this.width - 145))
+      const xPad = Math.min(130, Math.max(80, half.x - 18))
+      const sx = clamp((this.scratchA.x + 1) * half.x, xPad, Math.max(xPad, this.width - xPad))
       const sy = clamp((1 - this.scratchA.y) * half.y, 34, Math.max(34, this.height - 44))
-      const fade = clamp((facing + 0.02) / 0.16, 0, 1) * this.progress
+      const fade = clamp((facing + 0.02) / 0.09, 0, 1) * this.progress
 
       visible.push({ idx: i, node, sx, sy, fade })
     }
@@ -1131,7 +1132,7 @@ class GlobeRuntime {
     // 2D screen-space collision avoidance so floating labels never overlap one another
     visible.sort((a, b) => a.sy - b.sy)
     const placed: { sx: number; sy: number }[] = []
-    const minDx = 205
+    const minDx = Math.min(205, Math.max(150, this.width * 0.55))
     const minDy = 42
 
     for (const item of visible) {
@@ -1945,7 +1946,7 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                         top: "100%",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        width: resolvedCardW,
+                        width: `min(${resolvedCardW}px, 84vw)`,
                         display: "grid",
                         gridTemplateRows: open ? "1fr" : "0fr",
                         paddingTop: open ? 8 : 0,
