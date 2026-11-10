@@ -11,7 +11,7 @@ export function TechnologyDomains() {
       title: 'CRYPTOGRAPHY',
       headline: 'TRUST IN THE MATHEMATICS.',
       desc: 'The cryptographic foundations that protect identities, communications, data and digital transactions.',
-      href: '/technology/cryptography',
+      href: '#cryptography',
     },
     {
       num: '02',
@@ -19,7 +19,7 @@ export function TechnologyDomains() {
       title: 'POST-QUANTUM CRYPTOGRAPHY',
       headline: 'PREPARE BEFORE THE THREAT ARRIVES.',
       desc: 'Assess cryptographic exposure and prepare enterprise systems for the post-quantum transition.',
-      href: '/technology/post-quantum-cryptography',
+      href: '#post-quantum-cryptography',
     },
     {
       num: '03',
@@ -27,21 +27,23 @@ export function TechnologyDomains() {
       title: 'CRYPTO-AGILITY',
       headline: 'DECOUPLE CRYPTOGRAPHY FROM CODE.',
       desc: 'Design infrastructure that can adapt algorithms and cryptographic providers without rebuilding the entire application stack.',
-      href: '/technology/crypto-agility',
+      href: '#crypto-agility',
     },
     {
       num: '04',
       tag: 'ENTERPRISE SYSTEM',
       title: 'SECURITY ARCHITECTURE',
       headline: 'ENGINEER SECURITY AS A SYSTEM.',
-      desc: 'Connect applications, infrastructure, identity, cryptography and security controls into resilient enterprise architectures.',
-      href: '/technology/security-architecture',
+      desc: 'Connect applications, infrastructure, identity, cryptography and security controls into a 7-layer living enterprise architecture.',
+      href: '#security-architecture',
     },
   ]
 
   return (
     <section
+      id="domains"
       style={{
+        scrollMarginTop: 82,
         background: '#1D1E33',
         color: '#FFFFFF',
         padding: '100px 7vw 110px',
@@ -89,6 +91,7 @@ export function TechnologyDomains() {
             <a
               key={card.title}
               href={card.href}
+              className="hover-card-enterprise"
               style={{
                 textDecoration: 'none',
                 background: 'rgba(255, 255, 255, 0.03)',
@@ -98,15 +101,6 @@ export function TechnologyDomains() {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                transition: 'all 0.25 ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#F47117'
-                e.currentTarget.style.background = 'rgba(244, 113, 23, 0.06)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(203, 208, 217, 0.18)'
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'
               }}
             >
               <div>
@@ -169,7 +163,7 @@ export function TechnologyDomains() {
                   fontWeight: 600,
                 }}
               >
-                EXPLORE DOMAIN <ArrowUpRight size={14} />
+                JUMP TO {card.title} <ArrowUpRight size={14} />
               </div>
             </a>
           ))}

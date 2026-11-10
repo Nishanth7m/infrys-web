@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-export function EngineeringPrinciples() {
+export function EngineeringPrinciples({ sectionNumber = '04' }: { sectionNumber?: string }) {
   const principles = [
     {
       num: '01',
@@ -32,7 +32,9 @@ export function EngineeringPrinciples() {
 
   return (
     <section
+      id="principles"
       style={{
+        scrollMarginTop: 82,
         background: '#FEF3E5',
         color: '#1D1E33',
         padding: '95px 7vw',
@@ -55,7 +57,7 @@ export function EngineeringPrinciples() {
             }}
           >
             <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', borderRadius: '50%' }} />
-            ENGINEERING PRINCIPLES / 06
+            ENGINEERING PRINCIPLES / {sectionNumber}
           </p>
 
           <h2

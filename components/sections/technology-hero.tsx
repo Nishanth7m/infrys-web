@@ -4,15 +4,16 @@ import React, { useState } from 'react'
 import { ArrowUpRight, Shield, Cpu, Lock, Layers, RefreshCw, KeyRound } from 'lucide-react'
 
 export function TechnologyHero() {
-  const [activeStack, setActiveStack] = useState<number | null>(3)
+  const [activeStack, setActiveStack] = useState<number | null>(4)
 
   const stackLayers = [
-    { label: 'APPLICATION', desc: 'APIs, web gateways & enterprise microservices', icon: Shield },
-    { label: 'CRYPTOGRAPHY', desc: 'Symmetric & asymmetric mathematical primitives', icon: Lock },
-    { label: 'KEY MANAGEMENT', desc: 'PKI certificate authority & key Wrapping', icon: KeyRound },
-    { label: 'PQC', desc: 'NIST ML-KEM & ML-DSA lattice encryption', icon: Cpu },
-    { label: 'CRYPTO-AGILITY', desc: 'Decoupled hot-swappable algorithm abstraction', icon: RefreshCw },
-    { label: 'SECURITY ARCHITECTURE', desc: 'Living 5-layer enterprise defense infrastructure', icon: Layers },
+    { label: 'APPLICATIONS', desc: 'APIs, web gateways & enterprise microservices', icon: Shield },
+    { label: 'DATA', desc: 'Database envelope encryption & hybrid blob storage', icon: Layers },
+    { label: 'CRYPTOGRAPHIC SERVICES', desc: 'Abstraction layer & decoupled algorithm brokers', icon: Lock },
+    { label: 'KEY MANAGEMENT', desc: 'PKI certificate authority & split-knowledge key wrapping', icon: KeyRound },
+    { label: 'PQC', desc: 'NIST ML-KEM (FIPS 203) & ML-DSA (FIPS 204) lattice encryption', icon: Cpu },
+    { label: 'HSM / CRYPTO-AGILITY', desc: 'Hardware security modules & hot-swappable providers', icon: RefreshCw },
+    { label: 'SECURITY OPERATIONS', desc: 'Continuous cryptographic telemetry & SIEM compliance', icon: Shield },
   ]
 
   return (
@@ -88,7 +89,7 @@ export function TechnologyHero() {
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
             <a
               className="button-primary"
-              href="/technology/post-quantum-cryptography"
+              href="#post-quantum-cryptography"
               style={{
                 background: '#F47117',
                 borderColor: '#F47117',
@@ -132,7 +133,7 @@ export function TechnologyHero() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: TECHNICAL ARCHITECTURAL STACK DIAGRAM */}
+        {/* RIGHT COLUMN: TECHNICAL ARCHITECTURAL STACK DIAGRAM (NAVIGATES TO #security-architecture) */}
         <div
           style={{
             background: 'rgba(255, 255, 255, 0.02)',
@@ -147,7 +148,7 @@ export function TechnologyHero() {
               INFRYS ARCHITECTURAL STACK
             </span>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: '#CBD0D9' }}>
-              6-LAYER DEEP DEFENSE
+              7-LAYER LIVING DEFENSE
             </span>
           </div>
 
@@ -156,10 +157,13 @@ export function TechnologyHero() {
               const Icon = layer.icon
               const isActive = activeStack === idx
               return (
-                <div
+                <a
                   key={layer.label}
+                  href="#security-architecture"
                   onMouseEnter={() => setActiveStack(idx)}
+                  onFocus={() => setActiveStack(idx)}
                   style={{
+                    textDecoration: 'none',
                     background: isActive ? 'rgba(244, 113, 23, 0.12)' : 'rgba(255, 255, 255, 0.03)',
                     border: `1px solid ${isActive ? '#F47117' : 'rgba(203, 208, 217, 0.15)'}`,
                     borderRadius: 6,
@@ -180,10 +184,10 @@ export function TechnologyHero() {
                       <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: '#CBD0D9' }}>{layer.desc}</span>
                     </div>
                   </div>
-                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: isActive ? '#F47117' : 'rgba(203, 208, 217, 0.4)' }}>
-                    ↓
+                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: isActive ? '#F47117' : 'rgba(203, 208, 217, 0.5)' }}>
+                    INSPECT ↓
                   </span>
-                </div>
+                </a>
               )
             })}
           </div>

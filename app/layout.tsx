@@ -3,9 +3,21 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Infrys Security Technologies | Security for what\'s next.',
-  description: 'Protecting the systems, data and technologies that power modern enterprises.',
-  generator: 'v0.app',
+  metadataBase: new URL('https://infrys.com'),
+  title: "Infrys Security Technologies | Security for What's Next.",
+  description:
+    'Enterprise cybersecurity, post-quantum cryptography (PQC) migration, crypto-agility architecture, VAPT, GRC, and 24/7 managed security services.',
+  alternates: {
+    canonical: 'https://infrys.com',
+  },
+  openGraph: {
+    title: "Infrys Security Technologies | Security for What's Next.",
+    description:
+      'Protecting the systems, data and technologies that power modern enterprises through post-quantum cryptography and crypto-agile security.',
+    url: 'https://infrys.com',
+    siteName: 'Infrys Security Technologies',
+    type: 'website',
+  },
   icons: {
     icon: [
       {

@@ -8,21 +8,29 @@ export function TechnologyLandscape() {
       num: '01',
       title: 'CRYPTOGRAPHIC FOUNDATIONS',
       desc: 'Mathematical primitives, symmetric key wrapping, and PKI identity trust securing data in transit and at rest.',
+      href: '#cryptography',
+      linkLabel: 'EXPLORE CRYPTOGRAPHY ↓',
     },
     {
       num: '02',
-      title: 'ALGORITHM LIFECYCLE MANAGEMENT',
-      desc: 'Active tracking and inventory management of key dependencies across microservices, databases, and cloud HSMs.',
+      title: 'HNDL EXPOSURE & RISK',
+      desc: 'Active tracking of Harvest-Now-Decrypt-Later (HNDL) threats and asymmetric key dependencies across microservices and HSMs.',
+      href: '#why-pqc',
+      linkLabel: 'EXPLORE HNDL RISK ↓',
     },
     {
       num: '03',
       title: 'POST-QUANTUM TRANSITION',
       desc: 'NIST ML-KEM and ML-DSA lattice encryption shielding long-term confidential assets against future quantum decryption.',
+      href: '#post-quantum-cryptography',
+      linkLabel: 'EXPLORE PQC STANDARDS ↓',
     },
     {
       num: '04',
       title: 'ARCHITECTURAL ADAPTABILITY',
       desc: 'Decoupled crypto-agility abstraction layers enabling seamless zero-downtime algorithm hot-swapping.',
+      href: '#crypto-agility',
+      linkLabel: 'EXPLORE CRYPTO-AGILITY ↓',
     },
   ]
 
@@ -89,9 +97,12 @@ export function TechnologyLandscape() {
         {/* STRUCTURED TECHNICAL SYSTEM GRID */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
           {pillars.map((pillar) => (
-            <div
+            <a
               key={pillar.title}
+              href={pillar.href}
+              className="hover-card-enterprise"
               style={{
+                textDecoration: 'none',
                 background: '#FFFFFF',
                 border: '1px solid #D9DCE3',
                 padding: '32px 26px',
@@ -154,9 +165,9 @@ export function TechnologyLandscape() {
                   fontWeight: 600,
                 }}
               >
-                <span>STATE: ACTIVE</span>
+                <span>{pillar.linkLabel}</span>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

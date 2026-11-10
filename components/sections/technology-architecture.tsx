@@ -51,143 +51,101 @@ export function TechnologyArchitecture() {
   ]
 
   return (
-    <section
-      style={{
-        background: '#1D1E33',
-        color: '#FFFFFF',
-        padding: '100px 7vw 110px',
-        borderBottom: '1px solid rgba(203, 208, 217, 0.15)',
-      }}
-    >
-      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 50, marginBottom: 50 }}>
-          <div>
-            <p
-              style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: 11,
-                color: '#CBD0D9',
-                letterSpacing: '0.14em',
-                marginBottom: 16,
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-              }}
-            >
-              <span style={{ display: 'inline-block', width: 6, height: 6, background: '#F47117', borderRadius: '50%' }} />
-              TECHNOLOGY ARCHITECTURE / 05
-            </p>
+    <div>
+      <span
+        style={{
+          fontFamily: "'IBM Plex Mono', monospace",
+          fontSize: 11,
+          color: '#F47117',
+          letterSpacing: '0.14em',
+          fontWeight: 600,
+          display: 'block',
+          marginBottom: 20,
+        }}
+      >
+        INTERACTIVE 7-LAYER ENTERPRISE SECURITY ARCHITECTURE INSPECTOR
+      </span>
 
-            <h2
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: 'clamp(36px, 4.8vw, 60px)',
-                fontWeight: 700,
-                letterSpacing: '-0.05em',
-                lineHeight: 1.05,
-                margin: 0,
-                color: '#FFFFFF',
-              }}
-            >
-              A SECURITY ARCHITECTURE<br />
-              <span style={{ color: '#F47117' }}>BUILT TO EVOLVE.</span>
-            </h2>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <p
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 16,
-                color: '#CBD0D9',
-                lineHeight: 1.7,
-                margin: 0,
-              }}
-            >
-              Security intelligence moves through seven coordinated architectural layers. Select any layer to inspect its cryptographic responsibility and technology stack.
-            </p>
-          </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32 }}>
+        {/* LAYERS LIST (SEMANTIC BUTTONS) */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {architectureLayers.map((layer, idx) => {
+            const isActive = activeLayer === idx
+            return (
+              <button
+                key={layer.name}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => setActiveLayer(idx)}
+                onMouseEnter={() => setActiveLayer(idx)}
+                style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  background: isActive ? 'rgba(244, 113, 23, 0.12)' : 'rgba(255, 255, 255, 0.02)',
+                  border: `1px solid ${isActive ? '#F47117' : 'rgba(203, 208, 217, 0.15)'}`,
+                  borderRadius: 6,
+                  padding: '14px 20px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: isActive ? '#F47117' : '#CBD0D9', fontWeight: 600 }}>
+                    {layer.num}
+                  </span>
+                  <strong style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: isActive ? '#FFFFFF' : '#CBD0D9', fontWeight: 600 }}>
+                    {layer.name}
+                  </strong>
+                </div>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: isActive ? '#F47117' : 'rgba(203, 208, 217, 0.4)' }}>
+                  {isActive ? 'INSPECTING' : 'LAYER 0' + (idx + 1)}
+                </span>
+              </button>
+            )
+          })}
         </div>
 
-        {/* 7-LAYER INTERACTIVE STACK & INSPECTOR */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32 }}>
-          {/* LAYERS LIST */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {architectureLayers.map((layer, idx) => {
-              const isActive = activeLayer === idx
-              return (
-                <div
-                  key={layer.name}
-                  onClick={() => setActiveLayer(idx)}
-                  onMouseEnter={() => setActiveLayer(idx)}
-                  style={{
-                    background: isActive ? 'rgba(244, 113, 23, 0.12)' : 'rgba(255, 255, 255, 0.02)',
-                    border: `1px solid ${isActive ? '#F47117' : 'rgba(203, 208, 217, 0.15)'}`,
-                    borderRadius: 6,
-                    padding: '14px 20px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: isActive ? '#F47117' : '#CBD0D9', fontWeight: 600 }}>
-                      {layer.num}
-                    </span>
-                    <strong style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, color: isActive ? '#FFFFFF' : '#CBD0D9', fontWeight: 600 }}>
-                      {layer.name}
-                    </strong>
-                  </div>
-                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: isActive ? '#F47117' : 'rgba(203, 208, 217, 0.4)' }}>
-                    {isActive ? 'INSPECTING' : 'LAYER 0' + (idx + 1)}
-                  </span>
-                </div>
-              )
-            })}
+        {/* INSPECTOR PANEL */}
+        <div
+          style={{
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(244, 113, 23, 0.4)',
+            borderRadius: 8,
+            padding: '36px 30px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div>
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: '#F47117', letterSpacing: '0.14em', display: 'block', marginBottom: 12, fontWeight: 600 }}>
+              LAYER 0{activeLayer + 1} SPECIFICATION
+            </span>
+
+            <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 22, color: '#FFFFFF', margin: '0 0 10px', fontWeight: 700 }}>
+              {architectureLayers[activeLayer].name}
+            </h3>
+
+            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, color: '#F47117', margin: '0 0 16px', fontWeight: 500 }}>
+              {architectureLayers[activeLayer].tech}
+            </p>
+
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#CBD0D9', lineHeight: 1.65, margin: 0 }}>
+              {architectureLayers[activeLayer].detail}
+            </p>
           </div>
 
-          {/* INSPECTOR PANEL */}
-          <div
-            style={{
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(244, 113, 23, 0.4)',
-              borderRadius: 8,
-              padding: '36px 30px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div>
-              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: '#F47117', letterSpacing: '0.14em', display: 'block', marginBottom: 12, fontWeight: 600 }}>
-                LAYER 0{activeLayer + 1} SPECIFICATION
-              </span>
-
-              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 22, color: '#FFFFFF', margin: '0 0 10px', fontWeight: 700 }}>
-                {architectureLayers[activeLayer].name}
-              </h3>
-
-              <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, color: '#F47117', margin: '0 0 16px', fontWeight: 500 }}>
-                {architectureLayers[activeLayer].tech}
-              </p>
-
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: '#CBD0D9', lineHeight: 1.65, margin: 0 }}>
-                {architectureLayers[activeLayer].detail}
-              </p>
-            </div>
-
-            <div style={{ marginTop: 32, paddingTop: 20, borderTop: '1px solid rgba(203, 208, 217, 0.15)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: '#CBD0D9' }}>STATUS</span>
-              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: '#FEF3E5', background: 'rgba(244, 113, 23, 0.2)', padding: '4px 10px', borderRadius: 4 }}>
-                ACTIVE LAYER
-              </span>
-            </div>
+          <div style={{ marginTop: 32, paddingTop: 20, borderTop: '1px solid rgba(203, 208, 217, 0.15)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: '#CBD0D9' }}>STATUS</span>
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: '#FEF3E5', background: 'rgba(244, 113, 23, 0.2)', padding: '4px 10px', borderRadius: 4 }}>
+              ACTIVE LAYER
+            </span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }

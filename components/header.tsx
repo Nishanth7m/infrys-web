@@ -5,49 +5,52 @@ import { ArrowUpRight, Menu, X, ChevronDown } from 'lucide-react'
 
 import { InfrysHeaderLogo } from '@/components/logo'
 
-type NavCategory = 'TECHNOLOGY' | 'SOLUTIONS' | 'INDUSTRIES' | 'INSIGHTS' | 'COMPANY'
+type NavCategory = 'SOLUTIONS' | 'TECHNOLOGY' | 'INDUSTRIES' | 'INSIGHTS' | 'COMPANY'
 
 const CATEGORY_ROUTES: Record<NavCategory, string> = {
-  TECHNOLOGY: '/technology',
   SOLUTIONS: '/solutions',
+  TECHNOLOGY: '/technology',
   INDUSTRIES: '/industries',
   INSIGHTS: '/insights',
   COMPANY: '/company',
 }
 
 const MEGA_MENUS: Record<NavCategory, { label: string; desc: string; href: string }[]> = {
-  TECHNOLOGY: [
-    { label: 'Cryptography', desc: 'Mathematical trust for critical enterprise infrastructure.', href: '/technology/cryptography' },
-    { label: 'Post-Quantum Cryptography', desc: 'NIST-standardized lattice-based protection against quantum threat.', href: '/technology/post-quantum-cryptography' },
-    { label: 'Crypto-Agility', desc: 'Decoupled cryptographic layer for hot-swappable algorithms.', href: '/technology/crypto-agility' },
-    { label: 'Security Architecture', desc: '5-layer living defense stack across applications, data, and hardware.', href: '/technology/security-architecture' },
-  ],
   SOLUTIONS: [
-    { label: 'VAPT', desc: 'Vulnerability Assessment & Penetration Testing to find attack paths.', href: '/solutions/vapt' },
-    { label: 'GRC', desc: 'Governance, Risk & Compliance aligned with modern obligations.', href: '/solutions/grc' },
-    { label: 'Cryptography & PQC', desc: 'Cryptographic modernization and post-quantum migration.', href: '/solutions/cryptography-pqc' },
-    { label: 'Managed Security', desc: 'Continuous security monitoring, intelligence, and incident response.', href: '/solutions/managed-security' },
+    { label: 'VAPT', desc: 'Vulnerability Assessment & Penetration Testing to uncover real-world attack paths.', href: '/solutions#vapt' },
+    { label: 'GRC', desc: 'Governance, Risk & Compliance aligned with ISO 27001, SOC 2, HIPAA, and NIST CSF 2.0.', href: '/solutions#grc' },
+    { label: 'Cryptography & PQC', desc: 'Cryptographic inventory discovery and NIST post-quantum migration.', href: '/solutions#cryptography-pqc' },
+    { label: 'Managed Security', desc: '24/7 Threat Operations Center monitoring, telemetry, and incident containment.', href: '/solutions#managed-security' },
+  ],
+  TECHNOLOGY: [
+    { label: 'Cryptography', desc: 'Mathematical trust, symmetric key wrapping, and PKI lifecycle engineering.', href: '/technology#cryptography' },
+    { label: 'Post-Quantum Cryptography', desc: 'NIST FIPS 203 (ML-KEM), FIPS 204 (ML-DSA), and FIPS 205 (SLH-DSA) lattice protection.', href: '/technology#post-quantum-cryptography' },
+    { label: 'Crypto-Agility', desc: 'Decoupled cryptographic broker layer for zero-downtime algorithm hot-swapping.', href: '/technology#crypto-agility' },
+    { label: 'Security Architecture', desc: '7-layer living defense system connecting applications, data, PQC, and HSMs.', href: '/technology#security-architecture' },
+    { label: 'Why PQC & HNDL Risk', desc: 'Understanding Harvest-Now-Decrypt-Later exposure and migration timelines.', href: '/technology#why-pqc' },
   ],
   INDUSTRIES: [
-    { label: 'Financial Services', desc: 'High-frequency transaction encryption & regulatory GRC.', href: '/industries/financial-services' },
-    { label: 'Healthcare', desc: 'Long-term patient telemetry & HIPPA encrypted data protection.', href: '/industries/healthcare' },
-    { label: 'Technology', desc: 'SaaS PKI, microservice mesh TLS, and cloud infrastructure.', href: '/industries/technology' },
-    { label: 'Telecommunications', desc: '5G core signal encryption & subscriber identity security.', href: '/industries/telecommunications' },
-    { label: 'Manufacturing', desc: 'OT/ICS firmware integrity & supply chain hardware security.', href: '/industries/manufacturing' },
-    { label: 'Government & Critical Infrastructure', desc: 'State-secret longevity & national security PQC migration.', href: '/industries/government' },
+    { label: 'Financial Services', desc: 'High-frequency transaction encryption, payment HSMs & regulatory GRC.', href: '/industries#financial-services' },
+    { label: 'Healthcare', desc: 'Long-term patient EHR confidentiality, HIPAA encryption & medical IoT PKI.', href: '/industries#healthcare' },
+    { label: 'Technology', desc: 'SaaS PKI, microservice mesh mTLS, and quantum-resistant code signing.', href: '/industries#technology' },
+    { label: 'Telecommunications', desc: '5G core signaling security, backbone IPsec PQC & subscriber identity.', href: '/industries#telecommunications' },
+    { label: 'Manufacturing', desc: 'OT/ICS firmware integrity verification & long-lifespan supply chain PKI.', href: '/industries#manufacturing' },
+    { label: 'Government', desc: 'Classified data longevity & mandated FIPS 203 / 204 / 205 PQC migration.', href: '/industries#government' },
+    { label: 'Critical Infrastructure', desc: 'Grid control telemetry authentication & resilient zero-trust control planes.', href: '/industries#critical-infrastructure' },
   ],
   INSIGHTS: [
-    { label: 'Research', desc: 'Peer-reviewed studies on quantum risk timelines & lattice resilience.', href: '/insights/research' },
-    { label: 'PQC Migration Guides', desc: 'Actionable migration roadmaps for enterprise CISOs.', href: '/insights/pqc' },
-    { label: 'Cryptography', desc: 'Deep-dives into symmetric key wrapping & asymmetric vulnerabilities.', href: '/insights/cryptography' },
-    { label: 'Security Architecture', desc: 'Design patterns for zero-downtime algorithm hot-swapping.', href: '/insights/security-architecture' },
-    { label: 'GRC & Standards', desc: 'NIST FIPS 203, 204, 205 compliance frameworks.', href: '/insights/grc' },
+    { label: 'Technical Research', desc: 'Architectural analyses on ML-KEM/ML-DSA readiness and HNDL mitigation.', href: '/insights#research' },
+    { label: 'PQC Migration Guides', desc: 'Four-stage actionable migration roadmaps for enterprise CISOs and architects.', href: '/insights#pqc' },
+    { label: 'Reference Architectures', desc: 'Applied patterns for high-frequency PQC key exchange and crypto-agile brokers.', href: '/insights#frameworks' },
+    { label: 'GRC & Compliance Briefs', desc: 'Mapping cryptographic governance into NIST CSF 2.0, ISO 27001, and PCI-DSS 4.0.', href: '/insights#grc' },
+    { label: 'Publications & Briefings', desc: 'Request executive white papers and engineering briefings from our team.', href: '/insights#resources' },
   ],
   COMPANY: [
-    { label: 'About INFRYS', desc: 'Engineered for what’s next in enterprise security technologies.', href: '/company/about' },
-    { label: 'How We Work', desc: 'Our 6-phase engineering process from assessment to resilience.', href: '/company/how-we-work' },
-    { label: 'Insights & Research', desc: 'Explore our latest technical briefs and PQC publications.', href: '/insights' },
-    { label: 'Contact Us', desc: 'Connect with our cryptographic security experts.', href: '/contact' },
+    { label: 'About Infrys', desc: 'Our mission bridging offensive security and post-quantum resilience.', href: '/company#about' },
+    { label: 'Core Capabilities', desc: 'Foundational pillars across security engineering, cryptography, PQC, and architecture.', href: '/company#capabilities' },
+    { label: 'How We Work', desc: 'Our structured 6-phase engineering lifecycle from discovery to resilience.', href: '/company#how-we-work' },
+    { label: 'Careers', desc: 'Explore engineering practice areas and career opportunities at Infrys.', href: '/careers' },
+    { label: 'Contact Us', desc: 'Schedule a technical consultation with our security specialists.', href: '/contact' },
   ],
 }
 
@@ -91,7 +94,25 @@ export function EnterpriseHeader() {
       </a>
 
       {/* Desktop Navigation Links */}
-      <nav className="desktop-nav" style={{ display: 'flex', gap: 36, alignItems: 'center' }}>
+      <nav className="desktop-nav" aria-label="Main Navigation" style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
+        <a
+          href="/"
+          onMouseEnter={() => setActiveMenu(null)}
+          style={{
+            color: '#1D1E33',
+            fontFamily: "'Space Grotesk', system-ui, sans-serif",
+            fontWeight: 500,
+            fontSize: 12,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            padding: '28px 0',
+            textDecoration: 'none',
+            transition: 'color 0.2s ease',
+          }}
+        >
+          HOME
+        </a>
+
         {(Object.keys(MEGA_MENUS) as NavCategory[]).map((cat) => (
           <div
             key={cat}
@@ -100,9 +121,6 @@ export function EnterpriseHeader() {
           >
             <a
               href={CATEGORY_ROUTES[cat]}
-              onClick={(e) => {
-                // Allow direct navigation to main category page while toggling mega-menu
-              }}
               aria-expanded={activeMenu === cat}
               style={{
                 background: 'none',
@@ -139,7 +157,7 @@ export function EnterpriseHeader() {
       {/* Right Action CTA */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
         <a
-          className="button-primary"
+          className="button-primary header-cta-desktop"
           href="/contact"
           style={{
             background: '#F47117',
@@ -201,7 +219,7 @@ export function EnterpriseHeader() {
               CATEGORY / {activeMenu}
             </span>
             <h4 style={{ margin: '0 0 16px', fontSize: 18, color: '#1D1E33', fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif" }}>
-              Enterprise {activeMenu.toLowerCase()} solutions built for what’s next.
+              Enterprise {activeMenu.toLowerCase()} engineered for what’s next.
             </h4>
             <a
               href={CATEGORY_ROUTES[activeMenu]}
@@ -267,6 +285,8 @@ export function EnterpriseHeader() {
             top: 82,
             left: 0,
             right: 0,
+            maxHeight: 'calc(100vh - 82px)',
+            overflowY: 'auto',
             background: '#FEF3E5',
             borderBottom: '1px solid rgba(29, 30, 51, 0.2)',
             padding: '24px 7vw 36px',
@@ -275,6 +295,23 @@ export function EnterpriseHeader() {
             gap: 20,
           }}
         >
+          <div style={{ borderBottom: '1px solid rgba(29,30,51,0.1)', paddingBottom: 14 }}>
+            <a
+              href="/"
+              onClick={() => setMobileOpen(false)}
+              style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontWeight: 600,
+                fontSize: 12,
+                color: '#1D1E33',
+                letterSpacing: '0.12em',
+                display: 'block',
+                textDecoration: 'none',
+              }}
+            >
+              HOME →
+            </a>
+          </div>
           {(Object.keys(MEGA_MENUS) as NavCategory[]).map((cat) => (
             <div key={cat} style={{ borderBottom: '1px solid rgba(29,30,51,0.1)', paddingBottom: 16 }}>
               <a
@@ -307,6 +344,27 @@ export function EnterpriseHeader() {
               </div>
             </div>
           ))}
+          <a
+            href="/contact"
+            onClick={() => setMobileOpen(false)}
+            style={{
+              background: '#F47117',
+              color: '#FFFFFF',
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontWeight: 600,
+              fontSize: 12,
+              letterSpacing: '0.1em',
+              padding: '14px 20px',
+              borderRadius: 4,
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+            }}
+          >
+            TALK TO AN EXPERT <ArrowUpRight size={14} />
+          </a>
         </div>
       )}
     </header>

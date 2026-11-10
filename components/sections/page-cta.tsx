@@ -22,7 +22,7 @@ export function PageCTA({
   primaryCtaText = 'TALK TO AN EXPERT',
   primaryCtaHref = '/contact',
   secondaryCtaText = 'EXPLORE PQC ROADMAP',
-  secondaryCtaHref = '/technology/post-quantum-cryptography',
+  secondaryCtaHref = '/technology#post-quantum-cryptography',
 }: PageCTAProps) {
   return (
     <section

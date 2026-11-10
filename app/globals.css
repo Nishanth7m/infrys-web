@@ -177,7 +177,7 @@ body,.site-shell{background:var(--cream);color:var(--navy)}
 
 /* Enterprise motion layer: calm, purposeful, and readable. */
 :root{--motion-ease:cubic-bezier(.22,1,.36,1);--motion-fast:420ms;--motion-slow:900ms}
-section:not(.hero-pqc){opacity:0;transform:translateY(28px);transition:opacity var(--motion-slow) var(--motion-ease),transform var(--motion-slow) var(--motion-ease)}
+section:not(.hero-pqc){opacity:1;transform:none;transition:opacity var(--motion-slow) var(--motion-ease),transform var(--motion-slow) var(--motion-ease)}
 section:not(.hero-pqc)[data-revealed="true"]{opacity:1;transform:none}
 .site-footer{opacity:1!important;transform:none!important;background:#FEF3E5!important;border-top:none!important;margin-top:0!important}
 section:not(.hero-pqc)>div:first-child,section:not(.hero-pqc)>h2,section:not(.hero-pqc)>.eyebrow{transition:transform var(--motion-slow) var(--motion-ease)}
@@ -210,16 +210,740 @@ section:not(.hero-pqc)[data-revealed="true"] .eyebrow span{transform:scaleX(1.6)
   to { opacity: 1; transform: translateY(0); }
 }
 
-.desktop-nav button:hover {
+.desktop-nav button:hover,
+.desktop-nav a:hover {
   color: var(--orange) !important;
+}
+
+@media (max-width: 960px) {
+  .enterprise-header .desktop-nav {
+    display: none !important;
+  }
+  .enterprise-header .header-cta-desktop {
+    display: none !important;
+  }
 }
 
 /* Card hover animation */
 .hover-card-enterprise {
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.hover-card-enterprise:hover {
-  transform: translateY(-3px);
-  border-color: rgba(244, 113, 23, 0.4) !important;
+@media (hover: hover) and (pointer: fine) {
+  .hover-card-enterprise:hover {
+    transform: translateY(-3px);
+    border-color: rgba(244, 113, 23, 0.4) !important;
+  }
 }
+
+.button-primary:active {
+  transform: scale(0.97);
+}
+
+/* Hero Matrix Junction Full-Bleed Shader Stage */
+.hero-pqc {
+  background: #1D1E33 !important;
+}
+
+.shader-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1D1E33;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.shader-frame > iframe,
+.shader-frame > .threeui-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  background: #1D1E33 !important;
+}
+
+/* =========================================================================
+   INFRYS HERO ENHANCEMENT — CENTRAL CRYPTOGRAPHIC HUD, ORBIT & NODES
+   ========================================================================= */
+
+.infrys-crypto-enhancement {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  overflow: hidden;
+  user-select: none;
+}
+
+.infrys-particle-waves {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  mix-blend-mode: screen;
+  opacity: 0.88;
+  pointer-events: none;
+}
+
+/* Single Fixed Central Coordinate Anchor (matches WebGL shader center) */
+.infrys-junction-anchor {
+  --hud-scale: 1;
+  position: absolute;
+  left: 62%;
+  top: 51%;
+  width: 760px;
+  height: 760px;
+  transform: translate(-50%, -50%) scale(var(--hud-scale));
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+
+/* Static Central Convergence Glow (reduced haze, never translates) */
+.infrys-junction-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240px;
+  height: 240px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(254, 243, 229, 0.16) 0%,
+    rgba(244, 113, 23, 0.11) 28%,
+    rgba(244, 113, 23, 0.025) 55%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: infrysOpacityPulse 5.6s ease-in-out infinite;
+}
+
+/* Full-frame 760x760 SVG layers centered at (380, 380) (50% 50%) */
+.infrys-hud-svg,
+.infrys-hud-rotor {
+  position: absolute;
+  inset: 0;
+  width: 760px;
+  height: 760px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hud-core-pulse {
+  animation: infrysOpacityPulse 4.8s ease-in-out infinite;
+}
+
+/* Pure concentric rotation around exact 50% 50% center (380px, 380px) */
+.infrys-hud-rotor {
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.infrys-hud-rotor.rotor-inner {
+  animation: infrysSpinCW 35s linear infinite;
+}
+
+.infrys-hud-rotor.rotor-middle {
+  animation: infrysSpinCCW 50s linear infinite;
+}
+
+.infrys-hud-rotor.rotor-outer {
+  animation: infrysSpinCW 75s linear infinite;
+}
+
+/* Leader Line Signal Pulses & Anchor Halos */
+.hud-leader-pulse {
+  stroke-dashoffset: 322;
+  animation: infrysLeaderSweep 6.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+
+.hud-leader-pulse.pulse-delay-1 {
+  animation-delay: 0s;
+}
+
+.hud-leader-pulse.pulse-delay-2 {
+  animation-delay: 2.1s;
+}
+
+.hud-leader-pulse.pulse-delay-3 {
+  animation-delay: 4.2s;
+}
+
+.hud-anchor-halo {
+  animation: infrysOpacityPulse 3.4s ease-in-out infinite;
+}
+
+.hud-anchor-halo.halo-delay-1 {
+  animation-delay: 0s;
+}
+
+.hud-anchor-halo.halo-delay-2 {
+  animation-delay: 1.1s;
+}
+
+.hud-anchor-halo.halo-delay-3 {
+  animation-delay: 2.2s;
+}
+
+/* =========================================================================
+   CRYPTO-AGILITY ORBIT MARKERS (Fixed circular path r = 182px around 50% 50%)
+   ========================================================================= */
+
+.infrys-orbit-rotor {
+  position: absolute;
+  left: 380px;
+  top: 380px;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+  animation: infrysSpinCW 50s linear infinite;
+}
+
+.infrys-orbit-slot {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.infrys-orbit-slot.slot-adapt {
+  transform: rotate(-55deg) translateX(182px) rotate(55deg);
+}
+
+.infrys-orbit-slot.slot-migrate {
+  transform: rotate(65deg) translateX(182px) rotate(-65deg);
+}
+
+.infrys-orbit-slot.slot-evolve {
+  transform: rotate(185deg) translateX(182px) rotate(-185deg);
+}
+
+.infrys-orbit-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transform: translate(-4px, -50%);
+  animation: infrysCounterSpinCCW 50s linear infinite;
+}
+
+.orbit-marker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FEF3E5;
+  border: 1.5px solid #F47117;
+  flex-shrink: 0;
+}
+
+.orbit-marker-label {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #CBD0D9;
+  background: rgba(29, 30, 51, 0.76);
+  border: 1px solid rgba(244, 113, 23, 0.28);
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.orbit-marker-label b {
+  color: #F47117;
+  font-weight: 600;
+}
+
+.slot-adapt .orbit-marker-label,
+.slot-adapt .orbit-marker-dot {
+  animation: infrysOrbitHighlight 9s ease-in-out infinite 0s;
+}
+
+.slot-migrate .orbit-marker-label,
+.slot-migrate .orbit-marker-dot {
+  animation: infrysOrbitHighlight 9s ease-in-out infinite 3s;
+}
+
+.slot-evolve .orbit-marker-label,
+.slot-evolve .orbit-marker-dot {
+  animation: infrysOrbitHighlight 9s ease-in-out infinite 6s;
+}
+
+/* =========================================================================
+   THREE FIXED-POSITION INTERACTIVE INFORMATION NODES (Next.js Links)
+   ========================================================================= */
+
+.infrys-tech-node {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 9px 13px;
+  background: rgba(29, 30, 51, 0.54);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-top: 1px solid rgba(203, 208, 217, 0.14);
+  border-bottom: 1px solid rgba(203, 208, 217, 0.14);
+  transition:
+    transform 200ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+
+/* Subtle asynchronous living pulse per node (no positional drift) */
+.node-cryptography {
+  left: 34px;
+  top: 156px;
+  animation: infrysNodeBreath 6.4s ease-in-out infinite 0s;
+}
+
+.node-pqc {
+  left: 536px;
+  top: 144px;
+  animation: infrysNodeBreath 7.6s ease-in-out infinite 1.9s;
+}
+
+.node-agility {
+  left: 518px;
+  top: 502px;
+  animation: infrysNodeBreath 7.0s ease-in-out infinite 3.7s;
+}
+
+/* Hover, Active & Keyboard Focus States */
+@media (hover: hover) and (pointer: fine) {
+  .infrys-tech-node:hover {
+    transform: translateY(-2.5px);
+    background: rgba(29, 30, 51, 0.82);
+    border-top-color: rgba(244, 113, 23, 0.45);
+    border-bottom-color: rgba(244, 113, 23, 0.45);
+  }
+
+  .infrys-tech-node:hover .node-bracket {
+    border-color: #FEF3E5;
+    width: 8px;
+    height: 8px;
+  }
+
+  .infrys-tech-node:hover .node-icon {
+    background: rgba(244, 113, 23, 0.2);
+    border-color: rgba(244, 113, 23, 0.85);
+    filter: drop-shadow(0 0 6px rgba(244, 113, 23, 0.4));
+  }
+
+  .infrys-tech-node:hover .node-arrow {
+    opacity: 1;
+    transform: translate(1.5px, -1.5px);
+  }
+}
+
+.infrys-tech-node:active {
+  transform: translateY(-1px) scale(0.985);
+}
+
+.infrys-tech-node:focus-visible {
+  outline: 2px solid #F47117;
+  outline-offset: 4px;
+  background: rgba(29, 30, 51, 0.86);
+  border-top-color: rgba(244, 113, 23, 0.55);
+  border-bottom-color: rgba(244, 113, 23, 0.55);
+}
+
+/* Delicate orange corner brackets */
+.node-bracket {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-color: #F47117;
+  border-style: solid;
+  pointer-events: none;
+  transition: width 180ms ease, height 180ms ease, border-color 180ms ease, opacity 180ms ease;
+}
+
+.node-bracket.bracket-tl {
+  top: -1px;
+  left: -1px;
+  border-width: 1.5px 0 0 1.5px;
+}
+
+.node-bracket.bracket-tr {
+  top: -1px;
+  right: -1px;
+  border-width: 1.5px 1.5px 0 0;
+}
+
+.node-bracket.bracket-bl {
+  bottom: -1px;
+  left: -1px;
+  border-width: 0 0 1.5px 1.5px;
+}
+
+.node-bracket.bracket-br {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 1.5px 1.5px 0;
+}
+
+/* Sequential corner bracket illumination on Node 02 (PQC Readiness) */
+.pqc-corner-1 {
+  animation: infrysCornerPulse 4.8s ease-in-out infinite 0s;
+}
+.pqc-corner-2 {
+  animation: infrysCornerPulse 4.8s ease-in-out infinite 1.2s;
+}
+.pqc-corner-3 {
+  animation: infrysCornerPulse 4.8s ease-in-out infinite 2.4s;
+}
+.pqc-corner-4 {
+  animation: infrysCornerPulse 4.8s ease-in-out infinite 3.6s;
+}
+
+.node-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(244, 113, 23, 0.34);
+  background: rgba(244, 113, 23, 0.08);
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: background-color 200ms ease, border-color 200ms ease, filter 200ms ease;
+}
+
+/* Subtle icon internal animations */
+.icon-crypto {
+  animation: infrysIconGlow 5.2s ease-in-out infinite 0.4s;
+}
+
+.pqc-layer-1 {
+  animation: infrysOpacityPulse 3.6s ease-in-out infinite 0s;
+}
+.pqc-layer-2 {
+  animation: infrysOpacityPulse 3.6s ease-in-out infinite 1.2s;
+}
+.pqc-layer-3 {
+  animation: infrysOpacityPulse 3.6s ease-in-out infinite 2.4s;
+}
+
+.agility-dot-1 {
+  animation: infrysAgilityNodePulse 3.9s ease-in-out infinite 0s;
+}
+.agility-dot-2 {
+  animation: infrysAgilityNodePulse 3.9s ease-in-out infinite 1.3s;
+}
+.agility-dot-3 {
+  animation: infrysAgilityNodePulse 3.9s ease-in-out infinite 2.6s;
+}
+
+.node-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.node-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.node-index {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: #F47117;
+  letter-spacing: 0.12em;
+}
+
+.node-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.node-arrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #F47117;
+  opacity: 0.65;
+  margin-left: 2px;
+  transition: opacity 180ms ease, transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.node-supporting {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: #FEF3E5;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.node-standards {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 400;
+  color: #CBD0D9;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.pqc-std-item.std-1 {
+  animation: infrysStdPulse 6s ease-in-out infinite 0s;
+}
+.pqc-std-item.std-2 {
+  animation: infrysStdPulse 6s ease-in-out infinite 2s;
+}
+.pqc-std-item.std-3 {
+  animation: infrysStdPulse 6s ease-in-out infinite 4s;
+}
+
+/* =========================================================================
+   KEYFRAMES (Pure Rotation & Opacity — Zero Positional Drift)
+   ========================================================================= */
+
+@keyframes infrysSpinCW {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes infrysSpinCCW {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes infrysCounterSpinCCW {
+  from {
+    transform: translate(-4px, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-4px, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes infrysOpacityPulse {
+  0%,
+  100% {
+    opacity: 0.62;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes infrysLeaderSweep {
+  0% {
+    stroke-dashoffset: 322;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.95;
+  }
+  70% {
+    opacity: 0.95;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes infrysOrbitHighlight {
+  0%,
+  65%,
+  100% {
+    opacity: 0.68;
+    border-color: rgba(244, 113, 23, 0.28);
+  }
+  25%,
+  40% {
+    opacity: 1;
+    border-color: rgba(244, 113, 23, 0.92);
+  }
+}
+
+@keyframes infrysNodeBreath {
+  0%,
+  100% {
+    opacity: 0.92;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes infrysCornerPulse {
+  0%,
+  70%,
+  100% {
+    opacity: 0.65;
+    border-color: #F47117;
+  }
+  35% {
+    opacity: 1;
+    border-color: #FEF3E5;
+  }
+}
+
+@keyframes infrysIconGlow {
+  0%,
+  100% {
+    border-color: rgba(244, 113, 23, 0.34);
+    background-color: rgba(244, 113, 23, 0.08);
+  }
+  50% {
+    border-color: rgba(244, 113, 23, 0.72);
+    background-color: rgba(244, 113, 23, 0.16);
+  }
+}
+
+@keyframes infrysAgilityNodePulse {
+  0%,
+  65%,
+  100% {
+    opacity: 0.55;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+@keyframes infrysStdPulse {
+  0%,
+  65%,
+  100% {
+    color: #CBD0D9;
+  }
+  30% {
+    color: #FEF3E5;
+  }
+}
+
+/* =========================================================================
+   RESPONSIVE ALIGNMENT (Shared Central Coordinate Reference)
+   ========================================================================= */
+
+@media (max-width: 1400px) {
+  .infrys-junction-anchor {
+    --hud-scale: 0.86;
+  }
+}
+
+@media (max-width: 1180px) {
+  .infrys-junction-anchor {
+    --hud-scale: 0.74;
+  }
+}
+
+@media (max-width: 1024px) {
+  .infrys-junction-anchor {
+    --hud-scale: 0.64;
+    left: 60%;
+    top: 52%;
+  }
+}
+
+@media (max-width: 800px) {
+  .hero-pqc {
+    min-height: 760px !important;
+    padding-bottom: 64px !important;
+  }
+
+  .hero-visual-spacer {
+    min-height: 310px;
+  }
+
+  .hero-telemetry-readout {
+    top: 20px !important;
+    right: 7vw !important;
+  }
+
+  .infrys-junction-anchor {
+    --hud-scale: 0.52;
+    left: 50%;
+    top: 66%;
+  }
+
+  .infrys-orbit-rotor,
+  .hud-field-reticles {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .infrys-junction-anchor {
+    --hud-scale: 0.42;
+    left: 50%;
+    top: 66%;
+  }
+}
+
+/* =========================================================================
+   REDUCED MOTION STATIC FALLBACK
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .infrys-junction-glow,
+  .hud-core-pulse,
+  .infrys-hud-rotor,
+  .hud-leader-pulse,
+  .hud-anchor-halo,
+  .infrys-orbit-rotor,
+  .infrys-orbit-counter,
+  .slot-adapt .orbit-marker-label,
+  .slot-migrate .orbit-marker-label,
+  .slot-evolve .orbit-marker-label,
+  .infrys-tech-node,
+  .pqc-corner-1,
+  .pqc-corner-2,
+  .pqc-corner-3,
+  .pqc-corner-4,
+  .icon-crypto,
+  .pqc-layer-1,
+  .pqc-layer-2,
+  .pqc-layer-3,
+  .agility-dot-1,
+  .agility-dot-2,
+  .agility-dot-3,
+  .pqc-std-item {
+    animation: none !important;
+  }
+}
+
+.layer-5 { --width: 96px; }
+.layer-6 { --width: 112px; }
+
+@media (max-width: 800px) {
+  .service-list a {
+    grid-template-columns: 78px 1fr 20px !important;
+  }
+  .service-list a p {
+    display: none !important;
+  }
+}
+
+
+
 

@@ -52,7 +52,9 @@ export function TechnologyTransition() {
 
   return (
     <section
+      id="transition"
       style={{
+        scrollMarginTop: 82,
         background: '#FEF3E5',
         color: '#1D1E33',
         padding: '95px 7vw',
@@ -96,16 +98,20 @@ export function TechnologyTransition() {
 
         {/* STEPPER TRACK & ACTIVE INSPECTOR */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32 }}>
-          {/* STEP SELECTION LIST */}
+          {/* STEP SELECTION LIST (SEMANTIC BUTTONS) */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {steps.map((step, idx) => {
               const isActive = activeStep === idx
               return (
-                <div
+                <button
                   key={step.title}
+                  type="button"
+                  aria-pressed={isActive}
                   onClick={() => setActiveStep(idx)}
                   onMouseEnter={() => setActiveStep(idx)}
                   style={{
+                    width: '100%',
+                    textAlign: 'left',
                     background: isActive ? '#FFFFFF' : 'rgba(29, 30, 51, 0.03)',
                     border: `1px solid ${isActive ? '#F47117' : 'rgba(29, 30, 51, 0.12)'}`,
                     borderRadius: 6,
@@ -142,7 +148,7 @@ export function TechnologyTransition() {
                   <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: isActive ? '#F47117' : '#63667A' }}>
                     {isActive ? 'ACTIVE SIGNAL →' : 'SELECT'}
                   </span>
-                </div>
+                </button>
               )
             })}
           </div>

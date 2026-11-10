@@ -9,44 +9,52 @@ export function EnterpriseFooter() {
   const navColumns = [
     {
       title: 'SOLUTIONS',
-      columnRatio: '1.15fr',
       links: [
-        { label: 'Vulnerability Assessment & Penetration Testing', href: '/solutions/vapt' },
-        { label: 'Governance, Risk & Compliance', href: '/solutions/grc' },
-        { label: 'Cryptography & Post-Quantum Cryptography', href: '/solutions/cryptography-pqc' },
-        { label: 'Managed Security Services', href: '/solutions/managed-security' },
+        { label: 'VAPT (Offensive Security)', href: '/solutions#vapt' },
+        { label: 'Governance, Risk & Compliance', href: '/solutions#grc' },
+        { label: 'Cryptography & PQC Migration', href: '/solutions#cryptography-pqc' },
+        { label: 'Managed Security (24/7 SOC)', href: '/solutions#managed-security' },
       ],
     },
     {
       title: 'TECHNOLOGY',
-      columnRatio: '1fr',
       links: [
-        { label: 'Cryptography', href: '/technology/cryptography' },
-        { label: 'Post-Quantum Cryptography', href: '/technology/post-quantum-cryptography' },
-        { label: 'Crypto-Agility', href: '/technology/crypto-agility' },
-        { label: 'Security Architecture', href: '/technology/security-architecture' },
+        { label: 'Cryptography', href: '/technology#cryptography' },
+        { label: 'Post-Quantum Cryptography', href: '/technology#post-quantum-cryptography' },
+        { label: 'Crypto-Agility', href: '/technology#crypto-agility' },
+        { label: '7-Layer Security Architecture', href: '/technology#security-architecture' },
+        { label: 'Why PQC & HNDL Risk', href: '/technology#why-pqc' },
       ],
     },
     {
       title: 'INDUSTRIES',
-      columnRatio: '1fr',
       links: [
-        { label: 'Financial Services', href: '/industries/financial-services' },
-        { label: 'Healthcare', href: '/industries/healthcare' },
-        { label: 'Technology', href: '/industries/technology' },
-        { label: 'Telecommunications', href: '/industries/telecommunications' },
-        { label: 'Manufacturing', href: '/industries/manufacturing' },
-        { label: 'Government', href: '/industries/government' },
-        { label: 'Critical Infrastructure', href: '/industries/critical-infrastructure' },
+        { label: 'Financial Services', href: '/industries#financial-services' },
+        { label: 'Healthcare', href: '/industries#healthcare' },
+        { label: 'Technology', href: '/industries#technology' },
+        { label: 'Telecommunications', href: '/industries#telecommunications' },
+        { label: 'Manufacturing', href: '/industries#manufacturing' },
+        { label: 'Government', href: '/industries#government' },
+        { label: 'Critical Infrastructure', href: '/industries#critical-infrastructure' },
+      ],
+    },
+    {
+      title: 'INSIGHTS',
+      links: [
+        { label: 'Technical Research', href: '/insights#research' },
+        { label: 'PQC Migration Guides', href: '/insights#pqc' },
+        { label: 'Reference Architectures', href: '/insights#frameworks' },
+        { label: 'GRC & Compliance Briefs', href: '/insights#grc' },
+        { label: 'Publications & Briefings', href: '/insights#resources' },
       ],
     },
     {
       title: 'COMPANY',
-      columnRatio: '1fr',
       links: [
-        { label: 'About INFRYS', href: '/company/about' },
-        { label: 'How We Work', href: '/company/how-we-work' },
-        { label: 'Insights & Research', href: '/insights' },
+        { label: 'About Infrys', href: '/company#about' },
+        { label: 'Core Capabilities', href: '/company#capabilities' },
+        { label: 'How We Work', href: '/company#how-we-work' },
+        { label: 'Careers', href: '/careers' },
         { label: 'Contact Us', href: '/contact' },
       ],
     },
@@ -92,8 +100,8 @@ export function EnterpriseFooter() {
         }
         .infrys-footer-nav-grid {
           display: grid;
-          grid-template-columns: 1.15fr 1fr 1fr 1fr;
-          gap: 36px;
+          grid-template-columns: 1.1fr 1.1fr 1fr 1fr 0.9fr;
+          gap: 32px;
           border-top: 1px solid rgba(29, 30, 51, 0.15);
           padding: 28px 0;
         }
@@ -105,13 +113,13 @@ export function EnterpriseFooter() {
           padding: 20px 0;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1120px) {
           .infrys-footer-container {
             width: 100%;
             padding: 32px 4vw 18px;
           }
           .infrys-footer-nav-grid {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 28px;
           }
           .infrys-footer-contact-grid {
@@ -147,7 +155,7 @@ export function EnterpriseFooter() {
             paddingBottom: 28,
           }}
         >
-          {/* LEFT — BRAND LOCKUP (Perfectly aligned matching header logo construction) */}
+          {/* LEFT — BRAND LOCKUP */}
           <div>
             <a href="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
               <InfrysHeaderLogo theme="light" />
@@ -185,7 +193,7 @@ export function EnterpriseFooter() {
           </div>
         </div>
 
-        {/* LAYER 02 — NAVIGATION GRID (1.15fr : 1fr : 1fr : 1fr) */}
+        {/* LAYER 02 — NAVIGATION GRID (5 COLUMNS) */}
         <nav aria-label="Footer Navigation" className="infrys-footer-nav-grid">
           {navColumns.map((col) => (
             <div key={col.title}>
@@ -387,7 +395,7 @@ export function EnterpriseFooter() {
           {/* LEGAL LINKS */}
           <div style={{ display: 'flex', gap: 20, fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, fontWeight: 500 }}>
             <a
-              href="/"
+              href="/privacy-policy"
               style={{ color: '#4A4D61', textDecoration: 'none', transition: 'color 200ms ease' }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#F47117')}
               onMouseLeave={(e) => (e.currentTarget.style.color = '#4A4D61')}
@@ -395,7 +403,7 @@ export function EnterpriseFooter() {
               Privacy Policy
             </a>
             <a
-              href="/"
+              href="/terms"
               style={{ color: '#4A4D61', textDecoration: 'none', transition: 'color 200ms ease' }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#F47117')}
               onMouseLeave={(e) => (e.currentTarget.style.color = '#4A4D61')}

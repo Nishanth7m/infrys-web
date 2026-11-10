@@ -1,625 +1,654 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import * as THREE from 'three'
+import Link from 'next/link'
 
-// =========================================================================
-// INFRYS CRYPTOGRAPHIC CORE — PROCEDURAL MATTE 3D WEBGL ENGINE
-// Engineered to match reference aesthetics (media_1793684986360_b0397d6d.jpg):
-// - Iconic "S" 3D Möbius / figure-8 ribbon curve with wide architectural band
-// - Tactile matte obsidian/slate ceramic finish with soft Fresnel rim
-// - Subpixel anti-aliased laser-etched CAD grid (analytical fwidth in GLSL)
-// - Radiant intersection spark nodes at every grid vertex
-// - Incandescent molten orange spine channel with traveling photon starbursts
-// - Soft circular optical particles & starburst flare sprites
-// - Vertical telemetry antenna spikes on top crest with varying heights
-// - Gyroscopic concentric orbital coordinate rings with dashed CAD arcs
-// - Dynamic mouse parallax with physical damping (Emil Kowalski craft)
-// =========================================================================
+// ============================================================================
+// INFRYS — CENTRAL CRYPTOGRAPHIC HUD, ORBITAL SYSTEM & INTERACTIVE NODES
+// Single Fixed Central Anchor (shared with WebGL 3-beam intersection):
+// - Desktop (> 1024px):   left: 62%, top: 51%  (WebGL: vec2(aspect * 0.24, -0.02))
+// - Tablet (801–1024px):  left: 60%, top: 52%  (WebGL: vec2(aspect * 0.20, -0.04))
+// - Mobile (<= 800px):    left: 50%, top: 66%  (WebGL: vec2(0.0, -0.32))
+// All SVG layers use viewBox="0 0 760 760" with fixed center (380, 380) (50% 50%).
+// ============================================================================
+
+const CX = 380
+const CY = 380
+
+const DEGREE_TICKS = Array.from({ length: 72 }, (_, idx) => {
+  const deg = idx * 5
+  const isMajor = deg % 30 === 0
+  const isMedium = !isMajor && deg % 15 === 0
+  const innerR = 136
+  const outerR = isMajor ? 145 : isMedium ? 142 : 139.5
+  const rad = (deg * Math.PI) / 180
+  const x1 = Number((CX + Math.cos(rad) * innerR).toFixed(2))
+  const y1 = Number((CY + Math.sin(rad) * innerR).toFixed(2))
+  const x2 = Number((CX + Math.cos(rad) * outerR).toFixed(2))
+  const y2 = Number((CY + Math.sin(rad) * outerR).toFixed(2))
+  return { deg, isMajor, isMedium, x1, y1, x2, y2 }
+})
 
 export function CryptographicCore() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const waveCanvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
+    const canvas = waveCanvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-    let width = container.clientWidth || 640
-    let height = container.clientHeight || 640
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let reducedMotion = motionQuery.matches
 
-    // --- 1. THREE.JS SCENE, CAMERA, RENDERER ---
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 100)
-    camera.position.set(0, 0, 8.5)
+    let width = 0
+    let height = 0
+    let dpr = 1
+    let animationFrameId = 0
 
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance',
-    })
-    renderer.setSize(width, height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.toneMapping = THREE.ACESFilmicToneMapping
-    renderer.toneMappingExposure = 1.25
-    container.appendChild(renderer.domElement)
+    let targetMouseX = 0
+    let targetMouseY = 0
+    let currentMouseX = 0
+    let currentMouseY = 0
 
-    // Master Group for mouse parallax & global rotation
-    const masterGroup = new THREE.Group()
-    scene.add(masterGroup)
-
-    // Initial subtle pitch tilt to match reference elevation angle
-    masterGroup.rotation.x = 0.08
-    masterGroup.rotation.z = -0.04
-
-    // --- 2. SOFT CIRCULAR PARTICLE & OPTICAL STARBURST TEXTURES ---
-    const createCircleTexture = () => {
-      const c = document.createElement('canvas')
-      c.width = 64
-      c.height = 64
-      const ctx = c.getContext('2d')!
-      const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 30)
-      g.addColorStop(0.0, 'rgba(255, 255, 255, 1.0)')
-      g.addColorStop(0.25, 'rgba(255, 220, 160, 0.85)')
-      g.addColorStop(0.6, 'rgba(244, 113, 23, 0.35)')
-      g.addColorStop(1.0, 'rgba(244, 113, 23, 0.0)')
-      ctx.fillStyle = g
-      ctx.beginPath()
-      ctx.arc(32, 32, 30, 0, Math.PI * 2)
-      ctx.fill()
-      return new THREE.CanvasTexture(c)
+    const resize = () => {
+      const parent = canvas.parentElement
+      width = parent ? parent.clientWidth : window.innerWidth
+      height = parent ? parent.clientHeight : window.innerHeight
+      dpr = Math.min(window.devicePixelRatio || 1, 2)
+      canvas.width = Math.max(1, Math.floor(width * dpr))
+      canvas.height = Math.max(1, Math.floor(height * dpr))
     }
 
-    const createStarburstTexture = () => {
-      const c = document.createElement('canvas')
-      c.width = 128
-      c.height = 128
-      const ctx = c.getContext('2d')!
-      const cx = 64
-      const cy = 64
-
-      // Central radiant bloom
-      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 58)
-      g.addColorStop(0.0, 'rgba(255, 255, 255, 1.0)')
-      g.addColorStop(0.18, 'rgba(255, 235, 180, 0.95)')
-      g.addColorStop(0.45, 'rgba(244, 113, 23, 0.55)')
-      g.addColorStop(0.8, 'rgba(244, 113, 23, 0.12)')
-      g.addColorStop(1.0, 'rgba(244, 113, 23, 0.0)')
-      ctx.fillStyle = g
-      ctx.fillRect(0, 0, 128, 128)
-
-      // Horizontal ray
-      const gH = ctx.createLinearGradient(0, cy, 128, cy)
-      gH.addColorStop(0.0, 'rgba(255, 200, 120, 0.0)')
-      gH.addColorStop(0.5, 'rgba(255, 255, 255, 0.95)')
-      gH.addColorStop(1.0, 'rgba(255, 200, 120, 0.0)')
-      ctx.fillStyle = gH
-      ctx.fillRect(0, cy - 1.5, 128, 3)
-
-      // Vertical ray
-      const gV = ctx.createLinearGradient(cx, 0, cx, 128)
-      gV.addColorStop(0.0, 'rgba(255, 200, 120, 0.0)')
-      gV.addColorStop(0.5, 'rgba(255, 255, 255, 0.95)')
-      gV.addColorStop(1.0, 'rgba(255, 200, 120, 0.0)')
-      ctx.fillStyle = gV
-      ctx.fillRect(cx - 1.5, 0, 3, 128)
-
-      return new THREE.CanvasTexture(c)
-    }
-
-    const circleTex = createCircleTexture()
-    const starburstTex = createStarburstTexture()
-
-    // --- 3. PARAMETRIC "S" 3D RIBBON CURVE FORMULA ---
-    // Mathematically mirrored to form the classic S-curve diagonal from top-right to lower-left
-    const A = 1.82 // horizontal width amplitude
-    const B = 2.08 // vertical height amplitude
-    const C = 1.35 // depth amplitude
-    const D = 0.38 // harmonic depth tilt
-
-    const getCenterLine = (u: number): THREE.Vector3 => {
-      // Mirrored X so crossing sweeps from upper-right down to lower-left in front
-      const x = -Math.sin(2 * u) * A - Math.cos(u) * 0.18
-      const y = Math.cos(u) * B
-      const z = Math.sin(u) * C - Math.cos(2 * u) * D
-      return new THREE.Vector3(x, y, z)
-    }
-
-    const getTangent = (u: number): THREE.Vector3 => {
-      const eps = 0.001
-      const p1 = getCenterLine(u - eps)
-      const p2 = getCenterLine(u + eps)
-      return new THREE.Vector3().subVectors(p2, p1).normalize()
-    }
-
-    // Target surface normal to orient ribbon faces toward camera
-    const getTargetNormal = (u: number): THREE.Vector3 => {
-      const nx = -Math.sin(2 * u) * 0.22
-      const ny = Math.cos(u) * 0.65
-      const nz = Math.sin(u) * 0.75 + Math.cos(2 * u) * 0.35 + 0.25
-      return new THREE.Vector3(nx, ny, nz).normalize()
-    }
-
-    // --- 4. CONSTRUCT WIDE 3D ARCHITECTURAL RIBBON MESH ---
-    const SEGMENTS_U = 360 // longitudinal resolution
-    const SEGMENTS_V = 24  // latitudinal resolution
-    const RIBBON_WIDTH = 1.05 // broad, majestic architectural band
-
-    const vertexCount = (SEGMENTS_U + 1) * (SEGMENTS_V + 1)
-    const positions = new Float32Array(vertexCount * 3)
-    const normals = new Float32Array(vertexCount * 3)
-    const uvs = new Float32Array(vertexCount * 2)
-
-    let ptrPos = 0
-    let ptrNorm = 0
-    let ptrUV = 0
-
-    for (let i = 0; i <= SEGMENTS_U; i++) {
-      const uFrac = i / SEGMENTS_U
-      const u = uFrac * Math.PI * 2
-
-      const center = getCenterLine(u)
-      const tangent = getTangent(u)
-      const targetNorm = getTargetNormal(u)
-
-      // Binormal / width vector orthogonal to tangent
-      const widthVec = new THREE.Vector3().crossVectors(tangent, targetNorm).normalize()
-      // Surface normal orthogonal to width and tangent
-      const surfNorm = new THREE.Vector3().crossVectors(widthVec, tangent).normalize()
-
-      for (let j = 0; j <= SEGMENTS_V; j++) {
-        const vFrac = j / SEGMENTS_V
-        const vOffset = (vFrac - 0.5) * RIBBON_WIDTH
-
-        positions[ptrPos++] = center.x + widthVec.x * vOffset
-        positions[ptrPos++] = center.y + widthVec.y * vOffset
-        positions[ptrPos++] = center.z + widthVec.z * vOffset
-
-        normals[ptrNorm++] = surfNorm.x
-        normals[ptrNorm++] = surfNorm.y
-        normals[ptrNorm++] = surfNorm.z
-
-        uvs[ptrUV++] = uFrac
-        uvs[ptrUV++] = vFrac
-      }
-    }
-
-    const indexList: number[] = []
-    const stride = SEGMENTS_V + 1
-    for (let i = 0; i < SEGMENTS_U; i++) {
-      for (let j = 0; j < SEGMENTS_V; j++) {
-        const a = i * stride + j
-        const b = (i + 1) * stride + j
-        const c = (i + 1) * stride + (j + 1)
-        const d = i * stride + (j + 1)
-
-        indexList.push(a, b, d)
-        indexList.push(b, c, d)
-      }
-    }
-
-    const ribbonGeo = new THREE.BufferGeometry()
-    ribbonGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-    ribbonGeo.setAttribute('normal', new THREE.BufferAttribute(normals, 3))
-    ribbonGeo.setAttribute('uv', new THREE.BufferAttribute(uvs, 2))
-    ribbonGeo.setIndex(indexList)
-
-    // --- 5. PROCEDURAL MATTE GLSL SHADER MATERIAL ---
-    const ribbonMaterial = new THREE.ShaderMaterial({
-      side: THREE.DoubleSide,
-      transparent: true,
-      uniforms: {
-        uTime: { value: 0 },
-        uBaseColor: { value: new THREE.Color('#0F111E') },
-        uRimColor: { value: new THREE.Color('#3A486D') },
-        uSpineColor: { value: new THREE.Color('#FF6200') },
-        uSpineCore: { value: new THREE.Color('#FFF5E6') },
-        uGridColor: { value: new THREE.Color('#FFB066') },
-        uEdgeColor: { value: new THREE.Color('#FF781F') },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        varying vec3 vViewPosition;
-        varying vec3 vWorldPosition;
-        uniform float uTime;
-
-        void main() {
-          vUv = uv;
-          // Organic micro-wave undulation
-          float wave = sin(uv.x * 10.0 - uTime * 2.0) * 0.005;
-          vec3 displacedPos = position + normal * wave;
-
-          vec4 worldPos = modelMatrix * vec4(displacedPos, 1.0);
-          vWorldPosition = worldPos.xyz;
-
-          vec4 mvPosition = modelViewMatrix * vec4(displacedPos, 1.0);
-          vViewPosition = -mvPosition.xyz;
-          vNormal = normalize(normalMatrix * normal);
-
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
-      fragmentShader: `
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        varying vec3 vViewPosition;
-        varying vec3 vWorldPosition;
-
-        uniform float uTime;
-        uniform vec3 uBaseColor;
-        uniform vec3 uRimColor;
-        uniform vec3 uSpineColor;
-        uniform vec3 uSpineCore;
-        uniform vec3 uGridColor;
-        uniform vec3 uEdgeColor;
-
-        void main() {
-          vec3 N = normalize(vNormal);
-          if (!gl_FrontFacing) N = -N;
-          vec3 V = normalize(vViewPosition);
-
-          // Studio Diffuse Lighting
-          vec3 lightDirKey = normalize(vec3(2.5, 4.0, 5.0));
-          vec3 lightDirFill = normalize(vec3(-3.0, -3.5, 2.0));
-
-          float diffKey = max(0.0, dot(N, lightDirKey));
-          diffKey = pow(diffKey * 0.5 + 0.5, 2.2);
-
-          float diffFill = max(0.0, dot(N, lightDirFill)) * 0.35;
-          float diffuse = clamp(diffKey * 0.8 + diffFill + 0.18, 0.0, 1.0);
-
-          // Matte Fresnel Rim Highlight (velvety silhouette luster)
-          float NdotV = max(0.0, dot(N, V));
-          float fresnel = pow(1.0 - NdotV, 2.6) * 0.7;
-
-          // Tactile Matte Base Surface
-          vec3 matteBody = uBaseColor * diffuse + uRimColor * fresnel;
-
-          // Subpixel Anti-Aliased Laser CAD Grid (nearly square cells)
-          vec2 gridScale = vec2(110.0, 12.0);
-          vec2 gridCoord = vUv * gridScale;
-          vec2 gridFract = abs(fract(gridCoord - 0.5) - 0.5);
-          vec2 gridDist = gridFract / fwidth(gridCoord);
-          float lineFactor = 1.0 - min(min(gridDist.x, gridDist.y), 1.0);
-
-          // Grid Intersection Radiant Sparks
-          float nodeDist = length(gridFract) * 12.0;
-          float nodeSpark = smoothstep(1.0, 0.06, nodeDist);
-
-          // Central Incandescent Molten Spine Groove
-          float dCenter = abs(vUv.y - 0.5);
-          float spineCoreMask = exp(-dCenter * dCenter * 1500.0);
-          float spineGlowMask = exp(-dCenter * dCenter * 110.0);
-          float spineAmbientMask = exp(-dCenter * dCenter * 24.0);
-
-          // Traveling Photon Energy Waves
-          float pulse1 = exp(-pow(fract(vUv.x - uTime * 0.08) - 0.5, 2.0) * 160.0);
-          float pulse2 = exp(-pow(fract(vUv.x - uTime * 0.08 + 0.48) - 0.5, 2.0) * 160.0);
-          float pulseActive = pulse1 + pulse2 * 0.85;
-
-          // Edge Wireframe Borders
-          float dEdge = min(vUv.y, 1.0 - vUv.y);
-          float edgeWire = smoothstep(0.038, 0.005, dEdge);
-
-          // Color Assembler
-          vec3 gridEmissive = mix(uGridColor * 0.55, uSpineColor, spineGlowMask * 0.7);
-          vec3 gridFinal = gridEmissive * (lineFactor * 0.6 + nodeSpark * 0.95);
-
-          vec3 spineLight = mix(uSpineColor, uSpineCore, spineCoreMask * 0.85);
-          vec3 spineFinal = spineLight * (spineCoreMask * 2.4 + spineGlowMask * 1.4 + spineAmbientMask * 0.45);
-
-          vec3 pulseFinal = mix(uSpineColor, vec3(1.0, 0.95, 0.85), 0.7) * pulseActive * (spineGlowMask * 2.4 + lineFactor * 0.8 + 0.15);
-          vec3 edgeFinal = uEdgeColor * edgeWire * 0.85;
-
-          vec3 finalColor = matteBody + gridFinal + spineFinal + pulseFinal + edgeFinal;
-          gl_FragColor = vec4(finalColor, 0.96);
-        }
-      `,
-    })
-
-    const ribbonMesh = new THREE.Mesh(ribbonGeo, ribbonMaterial)
-    masterGroup.add(ribbonMesh)
-
-    // --- 6. TRAVELING PHOTON STARBURST FLARES ---
-    const flareCount = 3
-    const flareSprites: THREE.Sprite[] = []
-    const flareMat = new THREE.SpriteMaterial({
-      map: starburstTex,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    })
-
-    for (let i = 0; i < flareCount; i++) {
-      const sprite = new THREE.Sprite(flareMat)
-      sprite.scale.set(1.4, 1.4, 1.0)
-      masterGroup.add(sprite)
-      flareSprites.push(sprite)
-    }
-
-    // --- 7. VERTICAL CAD TELEMETRY SPIKES (Antenna Pins on Top Crest) ---
-    const pinCount = 22
-    const pinPositions: number[] = []
-    const pinDotPositions: number[] = []
-
-    for (let i = 0; i < pinCount; i++) {
-      const u = (Math.PI * 2 * (0.91 + (i / pinCount) * 0.18)) % (Math.PI * 2)
-      const center = getCenterLine(u)
-      const targetNorm = getTargetNormal(u)
-      const tangent = getTangent(u)
-      const widthVec = new THREE.Vector3().crossVectors(tangent, targetNorm).normalize()
-
-      const offsetV = ((i % 5) - 2) * 0.11
-      const basePos = new THREE.Vector3().copy(center).addScaledVector(widthVec, offsetV)
-
-      const pinHeight = 0.38 + ((i * 7) % 11) * 0.1
-      const topPos = new THREE.Vector3(basePos.x, basePos.y + pinHeight, basePos.z)
-
-      pinPositions.push(basePos.x, basePos.y, basePos.z)
-      pinPositions.push(topPos.x, topPos.y, topPos.z)
-
-      pinDotPositions.push(topPos.x, topPos.y, topPos.z)
-    }
-
-    const pinLineGeo = new THREE.BufferGeometry()
-    pinLineGeo.setAttribute('position', new THREE.Float32BufferAttribute(pinPositions, 3))
-    const pinLineMat = new THREE.LineBasicMaterial({
-      color: 0xF47117,
-      transparent: true,
-      opacity: 0.5,
-    })
-    const pinLines = new THREE.LineSegments(pinLineGeo, pinLineMat)
-    masterGroup.add(pinLines)
-
-    const pinDotGeo = new THREE.BufferGeometry()
-    pinDotGeo.setAttribute('position', new THREE.Float32BufferAttribute(pinDotPositions, 3))
-    const pinDotMat = new THREE.PointsMaterial({
-      map: circleTex,
-      color: 0xFFE3B3,
-      sizeAttenuation: false,
-      size: 5.5,
-      transparent: true,
-      opacity: 0.9,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    })
-    const pinDots = new THREE.Points(pinDotGeo, pinDotMat)
-    masterGroup.add(pinDots)
-
-    // --- 8. GYROSCOPIC CONCENTRIC ORBITAL RINGS ---
-    const ringGroup = new THREE.Group()
-    masterGroup.add(ringGroup)
-
-    const createCadRing = (radius: number, segments: number, rotX: number, rotY: number, color: number, opacity: number) => {
-      const ringGeo = new THREE.BufferGeometry()
-      const ringPts: number[] = []
-      for (let i = 0; i <= segments; i++) {
-        const theta = (i / segments) * Math.PI * 2
-        ringPts.push(Math.cos(theta) * radius, Math.sin(theta) * radius, 0)
-      }
-      ringGeo.setAttribute('position', new THREE.Float32BufferAttribute(ringPts, 3))
-      const ringMat = new THREE.LineBasicMaterial({
-        color,
-        transparent: true,
-        opacity,
-      })
-      const ring = new THREE.Line(ringGeo, ringMat)
-      ring.rotation.x = rotX
-      ring.rotation.y = rotY
-      return ring
-    }
-
-    const ring1 = createCadRing(2.95, 128, Math.PI * 0.32, Math.PI * 0.15, 0xF47117, 0.38)
-    const ring2 = createCadRing(3.3, 128, -Math.PI * 0.22, Math.PI * 0.45, 0xE8985A, 0.28)
-    const ring3 = createCadRing(3.65, 96, Math.PI * 0.48, -Math.PI * 0.1, 0x8E92A4, 0.2)
-    ringGroup.add(ring1, ring2, ring3)
-
-    // --- 9. AMBIENT QUANTUM OPTICAL SPARK PARTICLES ---
-    const PARTICLE_COUNT = 90
-    const particlePositions = new Float32Array(PARTICLE_COUNT * 3)
-    const particleColors = new Float32Array(PARTICLE_COUNT * 3)
-    const cAmber = new THREE.Color('#F47117')
-    const cGold = new THREE.Color('#FFD166')
-    const cWhite = new THREE.Color('#FFF5EA')
-
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particlePositions[i * 3 + 0] = (Math.random() - 0.5) * 8.5
-      particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 7.5
-      particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 5.0
-
-      const randC = Math.random()
-      const col = randC > 0.6 ? cAmber : randC > 0.25 ? cGold : cWhite
-      particleColors[i * 3 + 0] = col.r
-      particleColors[i * 3 + 1] = col.g
-      particleColors[i * 3 + 2] = col.b
-    }
-
-    const particleGeo = new THREE.BufferGeometry()
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3))
-    particleGeo.setAttribute('color', new THREE.BufferAttribute(particleColors, 3))
-    const particleMat = new THREE.PointsMaterial({
-      map: circleTex,
-      sizeAttenuation: false,
-      size: 4.5,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.75,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    })
-    const particleField = new THREE.Points(particleGeo, particleMat)
-    masterGroup.add(particleField)
-
-    // --- 10. DYNAMIC MOUSE PARALLAX WITH EMIL KOWALSKI CRAFT DAMPING ---
-    let targetRotX = 0
-    let targetRotY = 0
-    let currentRotX = 0
-    let currentRotY = 0
-
-    const onPointerMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect()
-      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1
-      const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1
-      targetRotX = -ny * 0.25
-      targetRotY = nx * 0.35
+    const onPointerMove = (e: PointerEvent) => {
+      if (reducedMotion) return
+      const nx = (e.clientX / Math.max(1, window.innerWidth)) * 2 - 1
+      const ny = (e.clientY / Math.max(1, window.innerHeight)) * 2 - 1
+      targetMouseX = nx
+      targetMouseY = ny
     }
 
     const onPointerLeave = () => {
-      targetRotX = 0
-      targetRotY = 0
+      targetMouseX = 0
+      targetMouseY = 0
     }
 
-    window.addEventListener('mousemove', onPointerMove)
-    container.addEventListener('mouseleave', onPointerLeave)
-
-    const handleResize = () => {
-      if (!container) return
-      width = container.clientWidth || 640
-      height = container.clientHeight || 640
-      camera.aspect = width / height
-      camera.updateProjectionMatrix()
-      renderer.setSize(width, height)
-    }
-    window.addEventListener('resize', handleResize)
-
-    // --- 11. ANIMATION LOOP (60FPS) ---
-    const startTime = performance.now()
-    let animationFrameId: number
-
-    const flareOffsets = [0.0, 0.38, 0.72]
-
-    const animate = (now: number) => {
-      animationFrameId = requestAnimationFrame(animate)
-      const elapsed = (now - startTime) / 1000
-
-      // Damped spring physics for mouse parallax
-      currentRotX += (targetRotX - currentRotX) * 0.05
-      currentRotY += (targetRotY - currentRotY) * 0.05
-
-      // Continuous stately tumbling rotation + living floating respiration
-      const floatY = Math.sin(elapsed * 1.4) * 0.07
-      const slowSpinY = elapsed * 0.12
-
-      masterGroup.rotation.x = 0.08 + currentRotX + Math.sin(elapsed * 0.8) * 0.04
-      masterGroup.rotation.y = currentRotY + slowSpinY
-      masterGroup.position.y = floatY
-
-      // Position traveling photon starbursts along the ribbon spline
-      flareSprites.forEach((flare, idx) => {
-        const uFlare = ((elapsed * 0.08 + flareOffsets[idx]) % 1.0) * Math.PI * 2
-        const pt = getCenterLine(uFlare)
-        flare.position.set(pt.x, pt.y, pt.z)
-
-        const pulseScale = 1.25 + Math.sin(elapsed * 4.0 + idx * 2.0) * 0.2
-        flare.scale.set(pulseScale, pulseScale, 1.0)
-      })
-
-      // Gyroscopic counter-rotation of orbit rings
-      ring1.rotation.z = elapsed * 0.16
-      ring2.rotation.z = -elapsed * 0.12
-      ring3.rotation.z = elapsed * 0.08
-
-      // Slow particle field drift
-      particleField.rotation.y = elapsed * 0.035
-
-      // Update shader uniform
-      ribbonMaterial.uniforms.uTime.value = elapsed
-
-      renderer.render(scene, camera)
+    // Shared central coordinate reference matching WebGL shader & CSS anchor
+    const getJunctionCenter = (w: number, h: number) => {
+      if (w > 1024) {
+        return { cx: w * 0.62, cy: h * 0.51 }
+      }
+      if (w > 800) {
+        return { cx: w * 0.60, cy: h * 0.52 }
+      }
+      return { cx: w * 0.50, cy: h * 0.66 }
     }
 
-    animationFrameId = requestAnimationFrame(animate)
+    const drawParticleWaves = (now: number) => {
+      const t = reducedMotion ? 2.4 : now * 0.001
 
-    // Cleanup
+      currentMouseX += (targetMouseX - currentMouseX) * 0.04
+      currentMouseY += (targetMouseY - currentMouseY) * 0.04
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      ctx.clearRect(0, 0, width, height)
+
+      const { cx, cy } = getJunctionCenter(width, height)
+      const isMobile = width <= 800
+      const isTablet = width > 800 && width <= 1024
+
+      const colsA = isMobile ? 32 : isTablet ? 48 : 68
+      const rowsA = isMobile ? 12 : isTablet ? 18 : 26
+
+      const colsB = isMobile ? 22 : isTablet ? 34 : 48
+      const rowsB = isMobile ? 8 : isTablet ? 12 : 16
+
+      const fov = 560
+      const parX = currentMouseX * 14
+      const parY = currentMouseY * 10
+
+      // --- WAVE SHEET A: Primary flowing cryptographic data topography ---
+      const spanWidthA = width * (isMobile ? 1.05 : 0.88)
+      const depthSpanA = isMobile ? 210 : 340
+      const startXA = cx - spanWidthA * 0.52
+      const baseYA = cy + (isMobile ? 65 : 105)
+
+      for (let r = 0; r < rowsA; r++) {
+        const v = r / Math.max(1, rowsA - 1)
+        const zWorld = (v - 0.35) * depthSpanA
+
+        for (let c = 0; c < colsA; c++) {
+          const u = c / Math.max(1, colsA - 1)
+          const xWorld = startXA + u * spanWidthA - cx + (v - 0.5) * 90
+          const slopeY = (0.5 - u) * (isMobile ? 95 : 175)
+
+          const phase1 = u * 7.2 - t * 0.65 + v * 2.8
+          const phase2 = u * 4.4 + t * 0.42 - v * 3.4
+          const phase3 = (u - v) * 5.5 - t * 0.3
+
+          const waveH =
+            Math.sin(phase1) * (isMobile ? 22 : 38) +
+            Math.cos(phase2) * (isMobile ? 14 : 26) +
+            Math.sin(phase3) * 10
+
+          const yWorld = baseYA - cy + slopeY + waveH
+          const scale = fov / Math.max(140, fov + zWorld)
+          const sx = cx + xWorld * scale + parX * (1.1 - v * 0.5)
+          const sy = cy + yWorld * scale + parY * (1.1 - v * 0.5)
+
+          if (sx < -10 || sx > width + 10 || sy < -10 || sy > height + 10) continue
+
+          const crest = Math.max(0, Math.min(1, (Math.sin(phase1) + Math.cos(phase2) + 1.4) * 0.38))
+          const distFromCenter = Math.hypot(sx - cx, sy - cy)
+
+          const coreClearance = Math.min(1, Math.max(0.15, (distFromCenter - 26) / 72))
+          const edgeFade = Math.sin(u * Math.PI) * Math.sin(v * Math.PI)
+          const alpha = Math.min(0.82, (0.12 + crest * 0.52) * edgeFade * coreClearance * scale)
+
+          if (alpha < 0.03) continue
+
+          const ptRadius = Math.max(0.65, (0.82 + crest * 0.7) * scale)
+
+          if (crest > 0.62) {
+            ctx.fillStyle = `rgba(244, 113, 23, ${alpha.toFixed(3)})`
+          } else if (crest > 0.42) {
+            ctx.fillStyle = `rgba(254, 243, 229, ${(alpha * 0.82).toFixed(3)})`
+          } else {
+            ctx.fillStyle = `rgba(203, 208, 217, ${(alpha * 0.58).toFixed(3)})`
+          }
+
+          ctx.beginPath()
+          ctx.arc(sx, sy, ptRadius, 0, Math.PI * 2)
+          ctx.fill()
+        }
+      }
+
+      // --- WAVE SHEET B: Upper-right harmonic counter-wave ---
+      const spanWidthB = width * (isMobile ? 0.75 : 0.52)
+      const depthSpanB = isMobile ? 160 : 250
+      const startXB = cx - spanWidthB * 0.18
+      const baseYB = cy - (isMobile ? 15 : 28)
+
+      for (let r = 0; r < rowsB; r++) {
+        const v = r / Math.max(1, rowsB - 1)
+        const zWorld = (v - 0.3) * depthSpanB
+
+        for (let c = 0; c < colsB; c++) {
+          const u = c / Math.max(1, colsB - 1)
+          const xWorld = startXB + u * spanWidthB - cx + (v - 0.5) * 65
+          const slopeY = (0.3 - u) * (isMobile ? 45 : 85)
+
+          const phase1 = u * 6.4 - t * 0.52 - v * 2.5
+          const phase2 = u * 3.8 + t * 0.36 + v * 3.1
+          const waveH =
+            Math.sin(phase1) * (isMobile ? 16 : 30) +
+            Math.cos(phase2) * (isMobile ? 12 : 20)
+
+          const yWorld = baseYB - cy + slopeY + waveH
+          const scale = fov / Math.max(140, fov + zWorld)
+          const sx = cx + xWorld * scale + parX * (0.8 - v * 0.4)
+          const sy = cy + yWorld * scale + parY * (0.8 - v * 0.4)
+
+          if (sx < -10 || sx > width + 10 || sy < -10 || sy > height + 10) continue
+
+          const crest = Math.max(0, Math.min(1, (Math.sin(phase1) + Math.cos(phase2) + 1.3) * 0.36))
+          const edgeFade = Math.sin(u * Math.PI) * Math.sin(v * Math.PI)
+          const alpha = Math.min(0.68, (0.09 + crest * 0.44) * edgeFade * scale)
+
+          if (alpha < 0.03) continue
+
+          const ptRadius = Math.max(0.6, (0.72 + crest * 0.62) * scale)
+          ctx.fillStyle =
+            crest > 0.55
+              ? `rgba(244, 113, 23, ${alpha.toFixed(3)})`
+              : `rgba(254, 243, 229, ${(alpha * 0.7).toFixed(3)})`
+
+          ctx.beginPath()
+          ctx.arc(sx, sy, ptRadius, 0, Math.PI * 2)
+          ctx.fill()
+        }
+      }
+
+      if (!reducedMotion) {
+        animationFrameId = requestAnimationFrame(drawParticleWaves)
+      }
+    }
+
+    const onMotionChange = () => {
+      reducedMotion = motionQuery.matches
+      cancelAnimationFrame(animationFrameId)
+      drawParticleWaves(performance.now())
+    }
+
+    resize()
+    drawParticleWaves(performance.now())
+
+    window.addEventListener('resize', resize, { passive: true })
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+    window.addEventListener('pointerleave', onPointerLeave, { passive: true })
+    motionQuery.addEventListener('change', onMotionChange)
+
     return () => {
       cancelAnimationFrame(animationFrameId)
-      window.removeEventListener('mousemove', onPointerMove)
-      container.removeEventListener('mouseleave', onPointerLeave)
-      window.removeEventListener('resize', handleResize)
-
-      circleTex.dispose()
-      starburstTex.dispose()
-      ribbonGeo.dispose()
-      ribbonMaterial.dispose()
-      flareMat.dispose()
-      pinLineGeo.dispose()
-      pinLineMat.dispose()
-      pinDotGeo.dispose()
-      pinDotMat.dispose()
-      ring1.geometry.dispose()
-      ring2.geometry.dispose()
-      ring3.geometry.dispose()
-      particleGeo.dispose()
-      particleMat.dispose()
-      renderer.dispose()
-
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement)
-      }
+      window.removeEventListener('resize', resize)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerleave', onPointerLeave)
+      motionQuery.removeEventListener('change', onMotionChange)
     }
   }, [])
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: 'clamp(580px, 76vh, 760px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        userSelect: 'none',
-      }}
-    >
-      {/* Soft Ambient Radial Core Aura */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: '-10%',
-          background: 'radial-gradient(circle at 50% 50%, rgba(244, 113, 23, 0.14), rgba(254, 163, 77, 0.04) 45%, transparent 70%)',
-          pointerEvents: 'none',
-          mixBlendMode: 'screen',
-        }}
-      />
+    <div className="infrys-crypto-enhancement">
+      {/* Flowing Mathematical Particle Data Waves */}
+      <canvas ref={waveCanvasRef} className="infrys-particle-waves" aria-hidden="true" />
 
-      {/* TOP-RIGHT TECHNICAL HUD ANNOTATION */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 36,
-          right: 36,
-          zIndex: 10,
-          pointerEvents: 'none',
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '10px',
-          letterSpacing: '0.14em',
-          textTransform: 'uppercase',
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: 10,
-        }}
-      >
-        <span
-          style={{
-            color: '#F47117',
-            fontSize: '14px',
-            fontWeight: 700,
-            lineHeight: 1,
-            marginTop: 1,
-          }}
+      {/* SINGLE FIXED CENTRAL ANCHOR (permanently locked to the 3-beam orange intersection) */}
+      <div className="infrys-junction-anchor">
+        {/* Static Central Convergence Glow */}
+        <div className="infrys-junction-glow" aria-hidden="true" />
+
+        {/* LAYER 1: STATIC BASE CIRCLES, RADIAL AXES, TICKS & NODE LEADER LINES (NEVER MOVES) */}
+        <svg
+          className="infrys-hud-svg"
+          viewBox="0 0 760 760"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
         >
-          +
-        </span>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <span style={{ color: '#FEF3E5', fontWeight: 600, fontSize: '10px', letterSpacing: '0.14em' }}>
-            INFRYS / CRYPTOGRAPHIC CORE
-          </span>
-          <span style={{ color: '#8E92A4', fontSize: '9px', letterSpacing: '0.12em' }}>
-            CRYPTOGRAPHIC SYSTEM / <span style={{ color: '#F47117', fontWeight: 600 }}>ACTIVE</span>
-          </span>
+          <defs>
+            <radialGradient id="infrysCorePulseGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FEF3E5" stopOpacity="0.32" />
+              <stop offset="38%" stopColor="#F47117" stopOpacity="0.14" />
+              <stop offset="100%" stopColor="#1D1E33" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+
+          {/* Static Central Radial Glow (opacity pulse only, fixed at CX, CY) */}
+          <circle cx={CX} cy={CY} r="64" fill="url(#infrysCorePulseGrad)" className="hud-core-pulse" />
+
+          {/* Static Radial Measurement Axes */}
+          <g className="hud-radial-axes" opacity="0.25">
+            <line x1={CX - 248} y1={CY} x2={CX - 46} y2={CY} stroke="#CBD0D9" strokeWidth="0.6" strokeDasharray="2 5" />
+            <line x1={CX + 46} y1={CY} x2={CX + 248} y2={CY} stroke="#CBD0D9" strokeWidth="0.6" strokeDasharray="2 5" />
+            <line x1={CX} y1={CY - 248} x2={CX} y2={CY - 46} stroke="#CBD0D9" strokeWidth="0.6" strokeDasharray="2 5" />
+            <line x1={CX} y1={CY + 46} x2={CX} y2={CY + 248} stroke="#CBD0D9" strokeWidth="0.6" strokeDasharray="2 5" />
+            <line x1={CX - 145} y1={CY - 145} x2={CX - 38} y2={CY - 38} stroke="#F47117" strokeWidth="0.55" strokeDasharray="1.5 6" />
+            <line x1={CX + 38} y1={CY + 38} x2={CX + 145} y2={CY + 145} stroke="#F47117" strokeWidth="0.55" strokeDasharray="1.5 6" />
+          </g>
+
+          {/* Static Concentric Base Rings (Fixed centered circles at r=54, 96, 136, 176, 182, 234) */}
+          <circle cx={CX} cy={CY} r="54" stroke="#FEF3E5" strokeOpacity="0.22" strokeWidth="0.75" />
+          <circle cx={CX} cy={CY} r="96" stroke="#CBD0D9" strokeOpacity="0.16" strokeWidth="0.7" />
+          <circle cx={CX} cy={CY} r="136" stroke="#F47117" strokeOpacity="0.22" strokeWidth="0.65" />
+          <circle cx={CX} cy={CY} r="176" stroke="#CBD0D9" strokeOpacity="0.15" strokeWidth="0.6" strokeDasharray="3 7" />
+          <circle cx={CX} cy={CY} r="182" stroke="#F47117" strokeOpacity="0.24" strokeWidth="0.85" />
+          <circle cx={CX} cy={CY} r="234" stroke="#CBD0D9" strokeOpacity="0.14" strokeWidth="0.65" />
+
+          {/* Static Polar Degree Ticks around r=136 */}
+          <g className="hud-ring-ticks">
+            {DEGREE_TICKS.map((t) => (
+              <line
+                key={t.deg}
+                x1={t.x1}
+                y1={t.y1}
+                x2={t.x2}
+                y2={t.y2}
+                stroke={t.isMajor ? '#F47117' : '#CBD0D9'}
+                strokeOpacity={t.isMajor ? '0.75' : t.isMedium ? '0.42' : '0.22'}
+                strokeWidth={t.isMajor ? '1.05' : '0.65'}
+              />
+            ))}
+          </g>
+
+          {/* Static Ambient Field Reticles */}
+          <g className="hud-field-reticles" opacity="0.56">
+            <g transform={`translate(${CX - 75}, ${CY - 278})`}>
+              <line x1="-28" y1="0" x2="12" y2="0" stroke="#F47117" strokeWidth="0.7" strokeDasharray="1.5 3" />
+              <path d="M 18 -4 L 18 4 M 14 0 L 22 0" stroke="#FEF3E5" strokeWidth="0.9" />
+            </g>
+            <g transform={`translate(${CX - 86}, ${CY + 266})`}>
+              <line x1="-18" y1="-2" x2="-18" y2="2" stroke="#F47117" strokeWidth="1" />
+              <line x1="-12" y1="-2" x2="-12" y2="2" stroke="#F47117" strokeWidth="1" />
+              <line x1="-6" y1="-3" x2="-6" y2="3" stroke="#FEF3E5" strokeWidth="1.1" />
+              <line x1="0" y1="-2" x2="0" y2="2" stroke="#F47117" strokeWidth="1" />
+              <line x1="6" y1="-2" x2="6" y2="2" stroke="#F47117" strokeWidth="1" />
+            </g>
+            <g transform={`translate(${CX + 278}, ${CY - 32})`}>
+              <line x1="-14" y1="0" x2="14" y2="0" stroke="#F47117" strokeWidth="0.75" strokeDasharray="2 3" />
+              <circle cx="0" cy="0" r="1.8" fill="#F47117" />
+              <path d="M 18 -3.5 L 18 3.5 M 14.5 0 L 21.5 0" stroke="#FEF3E5" strokeWidth="0.85" />
+            </g>
+          </g>
+
+          {/* Static Connected Technical Leader Lines & Traveling Light Pulses */}
+          <g className="hud-node-connections">
+            {/* Connection 01 -> CRYPTOGRAPHY (Upper-Left) */}
+            <polyline
+              points={`${CX - 116},${CY - 102} ${CX - 158},${CY - 162} ${CX - 346},${CY - 162}`}
+              stroke="#CBD0D9"
+              strokeOpacity="0.38"
+              strokeWidth="0.9"
+            />
+            <polyline
+              points={`${CX - 116},${CY - 102} ${CX - 158},${CY - 162} ${CX - 346},${CY - 162}`}
+              stroke="#F47117"
+              strokeWidth="1.35"
+              strokeDasharray="42 280"
+              strokeLinecap="round"
+              className="hud-leader-pulse pulse-delay-1"
+            />
+            <circle cx={CX - 116} cy={CY - 102} r="5.5" fill="#F47117" fillOpacity="0.24" className="hud-anchor-halo halo-delay-1" />
+            <circle cx={CX - 116} cy={CY - 102} r="2.8" fill="#FEF3E5" stroke="#F47117" strokeWidth="1.4" />
+
+            {/* Connection 02 -> PQC READINESS (Upper-Right) */}
+            <polyline
+              points={`${CX + 114},${CY - 106} ${CX + 156},${CY - 162} ${CX + 358},${CY - 162}`}
+              stroke="#CBD0D9"
+              strokeOpacity="0.38"
+              strokeWidth="0.9"
+            />
+            <polyline
+              points={`${CX + 114},${CY - 106} ${CX + 156},${CY - 162} ${CX + 358},${CY - 162}`}
+              stroke="#F47117"
+              strokeWidth="1.35"
+              strokeDasharray="42 280"
+              strokeLinecap="round"
+              className="hud-leader-pulse pulse-delay-2"
+            />
+            <circle cx={CX + 114} cy={CY - 106} r="5.5" fill="#F47117" fillOpacity="0.24" className="hud-anchor-halo halo-delay-2" />
+            <circle cx={CX + 114} cy={CY - 106} r="2.8" fill="#FEF3E5" stroke="#F47117" strokeWidth="1.4" />
+
+            {/* Connection 03 -> CRYPTO-AGILITY (Lower-Right) */}
+            <polyline
+              points={`${CX + 94},${CY + 126} ${CX + 138},${CY + 184} ${CX + 340},${CY + 184}`}
+              stroke="#CBD0D9"
+              strokeOpacity="0.38"
+              strokeWidth="0.9"
+            />
+            <polyline
+              points={`${CX + 94},${CY + 126} ${CX + 138},${CY + 184} ${CX + 340},${CY + 184}`}
+              stroke="#F47117"
+              strokeWidth="1.35"
+              strokeDasharray="42 280"
+              strokeLinecap="round"
+              className="hud-leader-pulse pulse-delay-3"
+            />
+            <circle cx={CX + 94} cy={CY + 126} r="5.5" fill="#F47117" fillOpacity="0.24" className="hud-anchor-halo halo-delay-3" />
+            <circle cx={CX + 94} cy={CY + 126} r="2.8" fill="#FEF3E5" stroke="#F47117" strokeWidth="1.4" />
+          </g>
+        </svg>
+
+        {/* LAYER 2: INNER ROTOR — 35s Clockwise Rotation around exact center (380, 380) */}
+        <svg
+          className="infrys-hud-rotor rotor-inner"
+          viewBox="0 0 760 760"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <circle
+            cx={CX}
+            cy={CY}
+            r="54"
+            stroke="#F47117"
+            strokeOpacity="0.78"
+            strokeWidth="1.25"
+            strokeDasharray="28 85 18 110"
+            strokeLinecap="round"
+          />
+          <line x1={CX} y1={CY - 49} x2={CX} y2={CY - 59} stroke="#F47117" strokeWidth="1" />
+          <line x1={CX + 49} y1={CY} x2={CX + 59} y2={CY} stroke="#F47117" strokeWidth="1" />
+          <line x1={CX} y1={CY + 49} x2={CX} y2={CY + 59} stroke="#F47117" strokeWidth="1" />
+          <line x1={CX - 49} y1={CY} x2={CX - 59} y2={CY} stroke="#F47117" strokeWidth="1" />
+          <circle cx={CX} cy={CY - 54} r="2.2" fill="#FEF3E5" stroke="#F47117" strokeWidth="1.2" />
+        </svg>
+
+        {/* LAYER 3: MIDDLE ROTOR — 50s Counterclockwise Rotation around exact center (380, 380) */}
+        <svg
+          className="infrys-hud-rotor rotor-middle"
+          viewBox="0 0 760 760"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="infrysMiddleArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#F47117" stopOpacity="0.92" />
+              <stop offset="55%" stopColor="#FEF3E5" stopOpacity="0.72" />
+              <stop offset="100%" stopColor="#F47117" stopOpacity="0.08" />
+            </linearGradient>
+          </defs>
+          <circle
+            cx={CX}
+            cy={CY}
+            r="96"
+            stroke="url(#infrysMiddleArcGrad)"
+            strokeWidth="1.35"
+            strokeDasharray="92 190 44 210"
+            strokeLinecap="round"
+          />
+          <circle cx={CX + 96} cy={CY} r="2.6" fill="#FEF3E5" stroke="#F47117" strokeWidth="1.5" />
+          <circle cx={CX - 67.88} cy={CY - 67.88} r="2.2" fill="#F47117" />
+          {/* Segmented measurement arcs on r=149 */}
+          <path
+            d={`M ${CX + 48} ${CY - 142} A 150 150 0 0 1 ${CX + 118} ${CY - 92}`}
+            stroke="#F47117"
+            strokeOpacity="0.52"
+            strokeWidth="3.8"
+            strokeDasharray="12 4 24 4 8 4"
+          />
+          <path
+            d={`M ${CX - 144} ${CY + 38} A 149 149 0 0 1 ${CX - 102} ${CY + 108}`}
+            stroke="#F47117"
+            strokeOpacity="0.42"
+            strokeWidth="3.0"
+            strokeDasharray="18 5 10 5"
+          />
+          {/* Partial illuminated orbital arcs on r=182 */}
+          <circle
+            cx={CX}
+            cy={CY}
+            r="182"
+            stroke="#F47117"
+            strokeOpacity="0.65"
+            strokeWidth="1.3"
+            strokeDasharray="58 324 58 324 58 324"
+            strokeLinecap="round"
+          />
+        </svg>
+
+        {/* LAYER 4: OUTER ROTOR — 75s Clockwise Rotation around exact center (380, 380) */}
+        <svg
+          className="infrys-hud-rotor rotor-outer"
+          viewBox="0 0 760 760"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <circle
+            cx={CX}
+            cy={CY}
+            r="224"
+            stroke="#FEF3E5"
+            strokeOpacity="0.28"
+            strokeWidth="1"
+            strokeDasharray="1.5 6.5"
+          />
+          <path
+            d={`M ${CX - 226} ${CY - 58} A 234 234 0 0 1 ${CX - 198} ${CY - 124}`}
+            stroke="#F47117"
+            strokeWidth="2.0"
+            strokeLinecap="round"
+          />
+          <path
+            d={`M ${CX - 38} ${CY - 231} A 234 234 0 0 1 ${CX + 68} ${CY - 224}`}
+            stroke="#F47117"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+          />
+          <path
+            d={`M ${CX - 42} ${CY + 230} A 234 234 0 0 0 ${CX + 58} ${CY + 226}`}
+            stroke="#F47117"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+          />
+          <circle cx={CX} cy={CY - 234} r="2.8" fill="#F47117" />
+          <circle cx={CX - 202.6} cy={CY + 117} r="2.5" fill="#FEF3E5" stroke="#F47117" strokeWidth="1.2" />
+          <circle cx={CX + 202.6} cy={CY + 117} r="2.4" fill="#F47117" />
+        </svg>
+
+        {/* LAYER 5: CRYPTO-AGILITY ORBIT MARKERS (Fixed circular path r=182 around exact center) */}
+        <div className="infrys-orbit-rotor" aria-hidden="true">
+          <div className="infrys-orbit-slot slot-adapt">
+            <div className="infrys-orbit-counter">
+              <span className="orbit-marker-dot" />
+              <span className="orbit-marker-label">
+                <b>01</b> — ADAPT
+              </span>
+            </div>
+          </div>
+
+          <div className="infrys-orbit-slot slot-migrate">
+            <div className="infrys-orbit-counter">
+              <span className="orbit-marker-dot" />
+              <span className="orbit-marker-label">
+                <b>02</b> — MIGRATE
+              </span>
+            </div>
+          </div>
+
+          <div className="infrys-orbit-slot slot-evolve">
+            <div className="infrys-orbit-counter">
+              <span className="orbit-marker-dot" />
+              <span className="orbit-marker-label">
+                <b>03</b> — EVOLVE
+              </span>
+            </div>
+          </div>
         </div>
+
+        {/* LAYER 6: FIXED-POSITION INTERACTIVE TECHNICAL INFORMATION NODES */}
+        {/* NODE 01 — CRYPTOGRAPHY -> /technology#cryptography */}
+        <Link
+          href="/technology#cryptography"
+          className="infrys-tech-node node-cryptography"
+          aria-label="Explore Cryptography technology: Algorithm, Keys, and Trust"
+        >
+          <span className="node-bracket bracket-tl" aria-hidden="true" />
+          <span className="node-bracket bracket-tr" aria-hidden="true" />
+          <span className="node-bracket bracket-bl" aria-hidden="true" />
+          <span className="node-bracket bracket-br" aria-hidden="true" />
+          <div className="node-icon icon-crypto" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="8.5" cy="12" r="4.5" stroke="#F47117" strokeWidth="1.5" className="crypto-key-ring" />
+              <circle cx="8.5" cy="12" r="1.6" fill="#FEF3E5" className="crypto-key-core" />
+              <path
+                d="M13 12H21M18 12V15.5M21 12V14.5"
+                stroke="#F47117"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                className="crypto-key-bit"
+              />
+            </svg>
+          </div>
+          <div className="node-body">
+            <div className="node-header">
+              <span className="node-index">01</span>
+              <span className="node-title">CRYPTOGRAPHY</span>
+              <span className="node-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div className="node-supporting">Algorithm · Keys · Trust</div>
+          </div>
+        </Link>
+
+        {/* NODE 02 — PQC READINESS -> /technology#post-quantum-cryptography */}
+        <Link
+          href="/technology#post-quantum-cryptography"
+          className="infrys-tech-node node-pqc"
+          aria-label="Explore Post-Quantum Cryptography Readiness: NIST FIPS 203, 204, and 205 (ML-KEM, ML-DSA, SLH-DSA)"
+        >
+          <span className="node-bracket bracket-tl pqc-corner-1" aria-hidden="true" />
+          <span className="node-bracket bracket-tr pqc-corner-2" aria-hidden="true" />
+          <span className="node-bracket bracket-br pqc-corner-3" aria-hidden="true" />
+          <span className="node-bracket bracket-bl pqc-corner-4" aria-hidden="true" />
+          <div className="node-icon icon-pqc" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 3.5L20 8L12 12.5L4 8L12 3.5Z"
+                stroke="#F47117"
+                strokeWidth="1.4"
+                strokeLinejoin="round"
+                className="pqc-layer-1"
+              />
+              <path
+                d="M4 12.5L12 17L20 12.5"
+                stroke="#FEF3E5"
+                strokeOpacity="0.88"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="pqc-layer-2"
+              />
+              <path
+                d="M4 16.5L12 21L20 16.5"
+                stroke="#F47117"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="pqc-layer-3"
+              />
+            </svg>
+          </div>
+          <div className="node-body">
+            <div className="node-header">
+              <span className="node-index">02</span>
+              <span className="node-title">PQC READINESS</span>
+              <span className="node-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div className="node-supporting">NIST FIPS 203 / 204 / 205</div>
+            <div className="node-standards">
+              <span className="pqc-std-item std-1">ML-KEM</span>
+              <span className="pqc-std-sep"> · </span>
+              <span className="pqc-std-item std-2">ML-DSA</span>
+              <span className="pqc-std-sep"> · </span>
+              <span className="pqc-std-item std-3">SLH-DSA</span>
+            </div>
+          </div>
+        </Link>
+
+        {/* NODE 03 — CRYPTO-AGILITY -> /technology#crypto-agility */}
+        <Link
+          href="/technology#crypto-agility"
+          className="infrys-tech-node node-agility"
+          aria-label="Explore Crypto-Agility technology: Adapt, Migrate, and Evolve"
+        >
+          <span className="node-bracket bracket-tl" aria-hidden="true" />
+          <span className="node-bracket bracket-tr" aria-hidden="true" />
+          <span className="node-bracket bracket-bl" aria-hidden="true" />
+          <span className="node-bracket bracket-br" aria-hidden="true" />
+          <div className="node-icon icon-agility" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M8.5 7H15.5M7.4 9.2L10.6 15.6M16.6 9.2L13.4 15.6"
+                stroke="#F47117"
+                strokeOpacity="0.78"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+              />
+              <circle cx="6" cy="7" r="2.5" stroke="#F47117" strokeWidth="1.5" className="agility-dot agility-dot-1" />
+              <circle cx="18" cy="7" r="2.5" stroke="#FEF3E5" strokeWidth="1.4" className="agility-dot agility-dot-2" />
+              <circle cx="12" cy="18" r="2.5" stroke="#F47117" strokeWidth="1.5" className="agility-dot agility-dot-3" />
+            </svg>
+          </div>
+          <div className="node-body">
+            <div className="node-header">
+              <span className="node-index">03</span>
+              <span className="node-title">CRYPTO-AGILITY</span>
+              <span className="node-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div className="node-supporting">Adapt · Migrate · Evolve</div>
+          </div>
+        </Link>
       </div>
     </div>
   )
