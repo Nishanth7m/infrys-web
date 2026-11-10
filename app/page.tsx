@@ -660,24 +660,41 @@ export default function Page() {
         style={{
           position: 'relative',
           width: '100%',
-          height: '740px',
-          minHeight: '740px',
           overflow: 'hidden',
           padding: 0,
           background: '#1D1E33',
-          display: 'block',
+          display: 'flex',
+          flexDirection: 'column',
           color: '#FFFFFF',
           borderTop: '1px solid rgba(203, 208, 217, 0.14)',
         }}
       >
-        <div style={{ position: 'absolute', top: '44px', left: '5vw', zIndex: 10, pointerEvents: 'none' }}>
-          <Eyebrow color="#CBD0D9">GLOBAL SECURITY INTELLIGENCE / 08</Eyebrow>
-          <h2 style={{ fontSize: 'clamp(32px, 4.2vw, 56px)', margin: 0, fontWeight: 600, letterSpacing: '-0.06em', color: '#FFFFFF', lineHeight: 1.04 }}>
-            CONNECTED ENTERPRISE<br />
-            <span style={{ color: '#F47117' }}>SECURITY NETWORK.</span>
-          </h2>
+        <div
+          style={{
+            padding: '52px 5vw 0',
+            position: 'relative',
+            zIndex: 10,
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+            gap: 20,
+          }}
+        >
+          <div>
+            <Eyebrow color="#CBD0D9">GLOBAL SECURITY INTELLIGENCE / 08</Eyebrow>
+            <h2 style={{ fontSize: 'clamp(32px, 4.2vw, 56px)', margin: 0, fontWeight: 600, letterSpacing: '-0.06em', color: '#FFFFFF', lineHeight: 1.04 }}>
+              CONNECTED ENTERPRISE<br />
+              <span style={{ color: '#F47117' }}>SECURITY NETWORK.</span>
+            </h2>
+          </div>
+          <p style={{ margin: 0, fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#CBD0D9', letterSpacing: '0.08em' }}>
+            HOVER TO INSPECT · CLICK ANY NODE TO EXPLORE DOMAIN ↗
+          </p>
         </div>
-        <AtomicGlobe style={{ width: '100%', height: '100%' }} theme="infrys" routeStyle="pulse" routeWidth={1.5} dotSize={4.5} />
+        <div style={{ position: 'relative', width: '100%', height: '650px', minHeight: '540px' }}>
+          <AtomicGlobe style={{ width: '100%', height: '100%' }} theme="infrys" routeStyle="pulse" routeWidth={1.5} dotSize={4.5} />
+        </div>
       </section>
 
       {/* 09 FINAL CTA AND FOOTER */}

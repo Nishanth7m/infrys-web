@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useMemo, useRef, useState } from "react"
+import Link from "next/link"
 import * as THREE from "three"
 
 /* ------------------------------------------------------------------ *
@@ -1102,6 +1103,8 @@ class GlobeRuntime {
 
     this.pivotOrigin.set(0, 0, 0).applyMatrix4(this.pivot.matrixWorld)
 
+    const visible: { idx: number; node: HTMLElement; sx: number; sy: number; fade: number }[] = []
+
     for (let i = 0; i < this.places.length; i++) {
       const place = this.places[i]
       const node = place.node
@@ -1111,20 +1114,39 @@ class GlobeRuntime {
       this.scratchB.copy(this.camera.position).sub(this.scratchA).normalize()
       const facing = this.scratchC.copy(this.scratchA).sub(this.pivotOrigin).normalize().dot(this.scratchB)
 
-      if (facing < -0.08) {
+      if (facing < 0.06) {
         node.style.opacity = "0"
         node.style.visibility = "hidden"
         continue
       }
 
       this.scratchA.project(this.camera)
-      const sx = (this.scratchA.x + 1) * half.x
-      const sy = (1 - this.scratchA.y) * half.y
-      const fade = clamp((facing + 0.08) / 0.3, 0, 1) * this.progress
+      const sx = clamp((this.scratchA.x + 1) * half.x, 110, Math.max(110, this.width - 110))
+      const sy = clamp((1 - this.scratchA.y) * half.y, 32, Math.max(32, this.height - 36))
+      const fade = clamp((facing - 0.04) / 0.14, 0, 1) * this.progress
 
-      node.style.visibility = "visible"
-      node.style.opacity = String(fade)
-      node.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0)`
+      visible.push({ idx: i, node, sx, sy, fade })
+    }
+
+    // 2D screen-space collision avoidance so floating labels never overlap one another
+    visible.sort((a, b) => a.sy - b.sy)
+    const placed: { sx: number; sy: number }[] = []
+    const minDx = 195
+    const minDy = 42
+
+    for (const item of visible) {
+      let adjY = item.sy
+      for (const prev of placed) {
+        if (Math.abs(item.sx - prev.sx) < minDx && Math.abs(adjY - prev.sy) < minDy) {
+          adjY = prev.sy + minDy
+        }
+      }
+      adjY = clamp(adjY, 32, Math.max(32, this.height - 36))
+      placed.push({ sx: item.sx, sy: adjY })
+
+      item.node.style.visibility = "visible"
+      item.node.style.opacity = String(item.fade)
+      item.node.style.transform = `translate3d(${item.sx.toFixed(1)}px, ${adjY.toFixed(1)}px, 0)`
     }
   }
 
@@ -1205,17 +1227,19 @@ class GlobeRuntime {
     const focus = cfg.focus ?? -1
     const target = focus >= 0 ? cfg.places?.[focus] : null
 
-    if (target) {
-      this.spinAngle = -target.lng * DEG
-      this.tiltAngle = target.lat * DEG
-    } else if (!this.dragging) {
+    if (!target && !this.dragging) {
       this.spinAngle += (cfg.spin * 0.016 + (1 - this.progress) * 0.014) * frames
       this.spinAngle += this.flingX * frames
       this.flingX *= Math.pow(0.94, frames)
       this.tiltAngle += (cfg.tilt * DEG - this.tiltAngle) * ease(0.055)
+    } else if (target) {
+      // Freeze the globe rotation immediately while user inspects/clicks a node
+      this.flingX = 0
+      this.spinAngle = this.pivot.rotation.y
+      this.tiltAngle = this.pivot.rotation.x
     }
 
-    const wanted = this.fitScale() * (target ? 1.5 : 0.88 + 0.12 * this.progress)
+    const wanted = this.fitScale() * (0.88 + 0.12 * this.progress)
     this.scale += (wanted - this.scale) * ease(0.08)
 
     this.pivot.scale.setScalar(this.scale)
@@ -1469,74 +1493,74 @@ export const DEFAULT_PLACES: GlobePlace[] = [
   {
     label: "POST-QUANTUM CRYPTOGRAPHY",
     region: "NORTH AMERICA",
-    lat: 40.7128,
+    lat: 42.3601,
     lng: -74.006,
-    body: "Preparing cryptographic systems for the post-quantum transition.",
+    body: "Preparing cryptographic systems for the post-quantum transition (NIST FIPS 203/204/205).",
     ctaLabel: "EXPLORE PQC",
-    ctaLink: "#pqc",
+    ctaLink: "/technology#post-quantum-cryptography",
   },
   {
     label: "CRYPTO-AGILITY",
     region: "EUROPE",
-    lat: 51.5074,
-    lng: -0.1278,
-    body: "Designing systems that can adapt as cryptographic standards evolve.",
+    lat: 54.5,
+    lng: -4.0,
+    body: "Designing decoupled abstraction systems that adapt as cryptographic standards evolve.",
     ctaLabel: "EXPLORE CRYPTO-AGILITY",
-    ctaLink: "#agility",
+    ctaLink: "/technology#crypto-agility",
   },
   {
     label: "GRC",
     region: "SOUTH ASIA",
-    lat: 12.9716,
-    lng: 77.5946,
-    body: "Governance, risk and compliance aligned with modern enterprise requirements.",
+    lat: 6.5,
+    lng: 86.0,
+    body: "Governance, risk and compliance aligned with ISO 27001, SOC 2, HIPAA, and NIST CSF 2.0.",
     ctaLabel: "EXPLORE GRC",
-    ctaLink: "#services",
+    ctaLink: "/solutions#grc",
   },
   {
     label: "VAPT",
-    region: "AMERICAS",
-    lat: 37.7749,
-    lng: -122.4194,
-    body: "Find attack paths before they become incidents.",
+    region: "AMERICAS WEST",
+    lat: 28.0,
+    lng: -120.0,
+    body: "Find attack paths before they become incidents with manual penetration testing.",
     ctaLabel: "EXPLORE VAPT",
-    ctaLink: "#services",
+    ctaLink: "/solutions#vapt",
   },
   {
     label: "CRYPTOGRAPHY",
     region: "EMEA",
-    lat: 48.8566,
-    lng: 2.3522,
-    body: "Move from today’s cryptography to crypto-agile systems.",
+    lat: -16.0,
+    lng: 24.0,
+    body: "Move from classical asymmetric infrastructure to resilient mathematical key governance.",
     ctaLabel: "EXPLORE CRYPTOGRAPHY",
-    ctaLink: "#cryptography",
+    ctaLink: "/technology#cryptography",
   },
   {
     label: "SECURITY ARCHITECTURE",
     region: "APAC",
-    lat: 1.3521,
-    lng: 103.8198,
-    body: "Protection is a living layer across applications, data, and infrastructure.",
+    lat: 34.0,
+    lng: 132.0,
+    body: "Protection built as a living 7-layer system across applications, data, and HSMs.",
     ctaLabel: "EXPLORE ARCHITECTURE",
-    ctaLink: "#architecture",
+    ctaLink: "/technology#security-architecture",
   },
   {
     label: "MANAGED SECURITY",
     region: "MIDDLE EAST",
-    lat: 25.2048,
-    lng: 55.2708,
-    body: "Extend your team with continuous intelligence and response.",
+    lat: 26.5,
+    lng: 56.0,
+    body: "Extend your team with continuous 24/7 SOC intelligence and rapid incident containment.",
     ctaLabel: "EXPLORE MANAGED SECURITY",
-    ctaLink: "#services",
+    ctaLink: "/solutions#managed-security",
   },
   {
     label: "CLOUD SECURITY",
     region: "LATAM",
-    lat: -23.5505,
-    lng: -46.6333,
-    body: "Securing cloud infrastructure and distributed enterprise environments.",
-    ctaLabel: "EXPLORE CLOUD SECURITY",
-    ctaLink: "#services",
+    lat: -24.0,
+    lng: -46.0,
+    body: "Securing cloud platforms, microservice meshes, and distributed SaaS workloads.",
+    ctaLabel: "EXPLORE CLOUD SECTORS",
+    ctaLink: "/industries#technology",
   },
 ]
 
@@ -1814,33 +1838,39 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                   onMouseLeave={() => setFocus(-1)}
                   onPointerDown={(event) => {
                     event.stopPropagation()
-                    if (!hasCard) return
-                    setFocus((prev) => (prev === index ? -1 : index))
                   }}
                   style={{
+                    position: "relative",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "flex-start",
                     width: "max-content",
-                    transform: "translate(-50%, -50%)",
+                    transform: "translate(-50%, -16px)",
                     pointerEvents: "auto",
-                    cursor: hasCard ? "pointer" : "default",
+                    cursor: "pointer",
                   }}
                 >
-                  <div
+                  <Link
+                    href={spot.ctaLink || "/solutions"}
+                    className="mg-interactive"
+                    onPointerDown={(event) => event.stopPropagation()}
+                    aria-label={`${spot.label} — ${spot.ctaLabel || "Explore"}`}
                     style={{
                       display: "flex",
                       alignItems: "center",
                       gap: 8,
-                      padding: "5px 12px 5px 8px",
+                      padding: "6px 12px 6px 8px",
                       borderRadius: 999,
-                      background: "#1D1E33",
+                      background: "#161729",
                       color: "#FEF3E5",
-                      border: open ? "1px solid #F47117" : "1px solid rgba(244, 113, 23, 0.4)",
+                      textDecoration: "none",
+                      border: open ? "1px solid #F47117" : "1px solid rgba(244, 113, 23, 0.55)",
                       boxShadow: open
                         ? "0 0 16px rgba(244, 113, 23, 0.45), 0 8px 24px rgba(0, 0, 0, 0.5)"
                         : "0 2px 10px rgba(0, 0, 0, 0.3)",
                       transition: `box-shadow 0.3s ${EASE_OUT}, border-color 0.3s ${EASE_OUT}`,
+                      pointerEvents: "auto",
+                      cursor: "pointer",
                       ...labelStyle,
                     }}
                   >
@@ -1875,38 +1905,51 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                     <span style={{ whiteSpace: "nowrap", fontSize: 11, fontWeight: 600, letterSpacing: "0.06em" }}>
                       {spot.label}
                     </span>
-                  </div>
+                    <span style={{ fontSize: 11, color: "#F47117", fontWeight: 700, marginLeft: 2 }} aria-hidden="true">
+                      ↗
+                    </span>
+                  </Link>
                   {hasCard && (
                     <div
                       style={{
+                        position: "absolute",
+                        top: "100%",
+                        left: 0,
                         display: "grid",
                         gridTemplateRows: open ? "1fr" : "0fr",
-                        marginTop: open ? 8 : 0,
+                        paddingTop: open ? 8 : 0,
                         opacity: open ? 1 : 0,
-                        transition: `grid-template-rows 0.4s ${EASE_OUT}, opacity 0.3s ${EASE_OUT}, margin-top 0.4s ${EASE_OUT}`,
+                        pointerEvents: open ? "auto" : "none",
+                        transition: `grid-template-rows 0.35s ${EASE_OUT}, opacity 0.25s ${EASE_OUT}, padding-top 0.35s ${EASE_OUT}`,
                         willChange: "grid-template-rows",
                       }}
                     >
                       <div style={{ overflow: "hidden" }}>
-                        <div
+                        <Link
+                          className="mg-interactive"
+                          href={spot.ctaLink || "/solutions"}
+                          onPointerDown={(e) => e.stopPropagation()}
                           style={{
                             width: Math.max(cardWidth, 260),
                             padding: "14px 16px",
                             borderRadius: 10,
-                            background: "#1D1E33",
-                            border: "1px solid rgba(244, 113, 23, 0.5)",
-                            boxShadow: "0 16px 40px rgba(0, 0, 0, 0.6)",
+                            background: "#161729",
+                            border: "1px solid rgba(244, 113, 23, 0.55)",
+                            boxShadow: "0 16px 40px rgba(0, 0, 0, 0.65)",
                             display: "flex",
                             flexDirection: "column",
                             gap: 6,
+                            textDecoration: "none",
+                            pointerEvents: "auto",
+                            cursor: "pointer",
                             transform: open ? "translateY(0)" : "translateY(-6px)",
-                            transition: `transform 0.4s ${EASE_OUT}`,
+                            transition: `transform 0.35s ${EASE_OUT}`,
                           }}
                         >
                           {spot.region && (
                             <div
                               style={{
-                                font: "400 9px 'DM Mono', monospace",
+                                font: "400 9px 'IBM Plex Mono', monospace",
                                 color: "#F47117",
                                 letterSpacing: "0.14em",
                                 textTransform: "uppercase",
@@ -1934,17 +1977,14 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                                 fontSize: 12,
                                 lineHeight: 1.5,
                                 color: "#CBD0D9",
-                                opacity: 0.9,
+                                opacity: 0.92,
                               }}
                             >
                               {spot.body}
                             </p>
                           )}
                           {spot.ctaLabel && (
-                            <a
-                              className="mg-interactive"
-                              href={spot.ctaLink || "#"}
-                              onPointerDown={(e) => e.stopPropagation()}
+                            <span
                               style={{
                                 display: "inline-flex",
                                 alignItems: "center",
@@ -1954,22 +1994,19 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                                 borderRadius: 4,
                                 marginTop: 6,
                                 textAlign: "center",
-                                textDecoration: "none",
-                                fontFamily: "'DM Mono', monospace",
+                                fontFamily: "'IBM Plex Mono', monospace",
                                 fontSize: 10,
                                 fontWeight: 600,
                                 letterSpacing: "0.1em",
                                 background: "#F47117",
                                 color: "#FFFFFF",
-                                pointerEvents: "auto",
                                 textTransform: "uppercase",
-                                transition: "background 0.2s, transform 0.2s",
                               }}
                             >
-                              [ {spot.ctaLabel} ]
-                            </a>
+                              [ {spot.ctaLabel} ] ↗
+                            </span>
                           )}
-                        </div>
+                        </Link>
                       </div>
                     </div>
                   )}
