@@ -1122,7 +1122,7 @@ class GlobeRuntime {
 
       this.scratchA.project(this.camera)
       const sx = clamp((this.scratchA.x + 1) * half.x, 145, Math.max(145, this.width - 145))
-      const sy = clamp((1 - this.scratchA.y) * half.y, 34, Math.max(34, this.height - 96))
+      const sy = clamp((1 - this.scratchA.y) * half.y, 34, Math.max(34, this.height - 44))
       const fade = clamp((facing + 0.02) / 0.16, 0, 1) * this.progress
 
       visible.push({ idx: i, node, sx, sy, fade })
@@ -1141,7 +1141,7 @@ class GlobeRuntime {
           adjY = prev.sy + minDy
         }
       }
-      adjY = clamp(adjY, 34, Math.max(34, this.height - 96))
+      adjY = clamp(adjY, 34, Math.max(34, this.height - 44))
       placed.push({ sx: item.sx, sy: adjY })
 
       item.node.dataset.flip = adjY > this.height - 260 ? "1" : "0"
@@ -1853,12 +1853,10 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                 <div
                   className="mg-interactive"
                   onMouseEnter={() => {
-                    setLockCamera(false)
-                    setFocus(index)
+                    if (!lockCamera) setFocus(index)
                   }}
                   onMouseLeave={() => {
-                    setLockCamera(false)
-                    setFocus(-1)
+                    if (!lockCamera) setFocus(-1)
                   }}
                   onPointerDown={(event) => {
                     event.stopPropagation()
@@ -1871,23 +1869,32 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                     width: "max-content",
                     transform: "translate(-50%, -16px)",
                     pointerEvents: "auto",
-                    cursor: "pointer",
                   }}
                 >
-                  <Link
-                    href={spot.ctaLink || "/solutions"}
+                  <button
+                    type="button"
                     className="mg-interactive"
                     onPointerDown={(event) => event.stopPropagation()}
-                    aria-label={`${spot.label} — ${spot.ctaLabel || "Explore"}`}
+                    onClick={() => {
+                      if (!hasCard) return
+                      if (open && lockCamera) {
+                        setFocus(-1)
+                        setLockCamera(false)
+                      } else {
+                        setFocus(index)
+                        setLockCamera(true)
+                      }
+                    }}
+                    aria-expanded={open}
+                    aria-label={`Inspect ${spot.label}`}
                     style={{
                       display: "flex",
                       alignItems: "center",
                       gap: 8,
-                      padding: "6px 12px 6px 8px",
+                      padding: "6px 13px 6px 8px",
                       borderRadius: 999,
                       background: "#161729",
                       color: "#FEF3E5",
-                      textDecoration: "none",
                       border: open ? "1px solid #F47117" : "1px solid rgba(244, 113, 23, 0.55)",
                       boxShadow: open
                         ? "0 0 16px rgba(244, 113, 23, 0.45), 0 8px 24px rgba(0, 0, 0, 0.5)"
@@ -1929,10 +1936,7 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                     <span style={{ whiteSpace: "nowrap", fontSize: 11, fontWeight: 600, letterSpacing: "0.06em" }}>
                       {spot.label}
                     </span>
-                    <span style={{ fontSize: 11, color: "#F47117", fontWeight: 700, marginLeft: 2 }} aria-hidden="true">
-                      ↗
-                    </span>
-                  </Link>
+                  </button>
                   {hasCard && (
                     <div
                       className="mg-card-popover"
@@ -1953,10 +1957,7 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                       }}
                     >
                       <div style={{ overflow: "hidden", width: "100%" }}>
-                        <Link
-                          className="mg-interactive"
-                          href={spot.ctaLink || "/solutions"}
-                          onPointerDown={(e) => e.stopPropagation()}
+                        <div
                           style={{
                             width: "100%",
                             boxSizing: "border-box",
@@ -1968,9 +1969,6 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                             display: "flex",
                             flexDirection: "column",
                             gap: 6,
-                            textDecoration: "none",
-                            pointerEvents: "auto",
-                            cursor: "pointer",
                             transform: open ? "translateY(0)" : "translateY(-6px)",
                             transition: `transform 0.32s ${EASE_OUT}`,
                           }}
@@ -2013,95 +2011,41 @@ export function AtomicGlobe(props: AtomicGlobeProps) {
                             </p>
                           )}
                           {spot.ctaLabel && (
-                            <span
+                            <Link
+                              className="mg-interactive"
+                              href={spot.ctaLink || "/solutions"}
+                              onPointerDown={(e) => e.stopPropagation()}
                               style={{
                                 display: "inline-flex",
                                 alignItems: "center",
                                 justifyContent: "center",
                                 gap: 6,
-                                padding: "8px 12px",
+                                padding: "9px 12px",
                                 borderRadius: 4,
                                 marginTop: 6,
                                 textAlign: "center",
+                                textDecoration: "none",
                                 fontFamily: "'IBM Plex Mono', monospace",
                                 fontSize: 10,
                                 fontWeight: 600,
                                 letterSpacing: "0.1em",
                                 background: "#F47117",
                                 color: "#FFFFFF",
+                                pointerEvents: "auto",
+                                cursor: "pointer",
                                 textTransform: "uppercase",
                               }}
                             >
                               [ {spot.ctaLabel} ] ↗
-                            </span>
+                            </Link>
                           )}
-                        </Link>
+                        </div>
                       </div>
                     </div>
                   )}
                 </div>
               )}
             </div>
-          )
-        })}
-      </div>
-
-      {/* Bottom Interactive Region/Domain Focus Bar — Restores one-click rotate-and-zoom inspection */}
-      <div
-        className="mg-interactive"
-        onPointerDown={(e) => e.stopPropagation()}
-        style={{
-          position: "absolute",
-          bottom: 18,
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 5,
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: 6,
-          width: "max-content",
-          maxWidth: "calc(100% - 32px)",
-          padding: "6px 10px",
-          borderRadius: 16,
-          background: "rgba(22, 23, 41, 0.88)",
-          border: "1px solid rgba(203, 208, 217, 0.16)",
-          backdropFilter: "blur(8px)",
-          pointerEvents: "auto",
-        }}
-      >
-        {spots.map((spot, idx) => {
-          const isFocused = focus === idx
-          return (
-            <button
-              key={spot.label}
-              type="button"
-              onClick={() => {
-                if (isFocused && lockCamera) {
-                  setFocus(-1)
-                  setLockCamera(false)
-                } else {
-                  setFocus(idx)
-                  setLockCamera(true)
-                }
-              }}
-              style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: 9.5,
-                fontWeight: 600,
-                letterSpacing: "0.07em",
-                padding: "5px 10px",
-                borderRadius: 999,
-                border: isFocused ? "1px solid #F47117" : "1px solid rgba(203, 208, 217, 0.22)",
-                background: isFocused ? "rgba(244, 113, 23, 0.22)" : "rgba(255, 255, 255, 0.03)",
-                color: isFocused ? "#FFFFFF" : "#CBD0D9",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-                transition: "all 0.2s ease",
-              }}
-            >
-              {spot.label}
-            </button>
           )
         })}
       </div>

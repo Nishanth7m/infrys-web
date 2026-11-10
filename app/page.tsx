@@ -689,7 +689,7 @@ export default function Page() {
             </h2>
           </div>
           <p style={{ margin: 0, fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: '#CBD0D9', letterSpacing: '0.08em' }}>
-            HOVER TO INSPECT · CLICK ANY NODE TO EXPLORE DOMAIN ↗
+            DRAG TO ROTATE · HOVER OR CLICK NODE TO INSPECT
           </p>
         </div>
         <div style={{ position: 'relative', width: '100%', height: '680px', minHeight: '560px' }}>
