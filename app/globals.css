@@ -182,8 +182,19 @@ section:not(.hero-pqc)[data-revealed="true"]{opacity:1;transform:none}
 .site-footer{opacity:1!important;transform:none!important;background:#FEF3E5!important;border-top:none!important;margin-top:0!important}
 section:not(.hero-pqc)>div:first-child,section:not(.hero-pqc)>h2,section:not(.hero-pqc)>.eyebrow{transition:transform var(--motion-slow) var(--motion-ease)}
 section:not(.hero-pqc)[data-revealed="true"] .eyebrow{animation:eyebrow-in var(--motion-fast) var(--motion-ease) both}
-.section-rule .eyebrow span{transform-origin:left;transition:transform var(--motion-fast) var(--motion-ease)}
-section:not(.hero-pqc)[data-revealed="true"] .eyebrow span{transform:scaleX(1.6)}
+.eyebrow {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+}
+.eyebrow span {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  margin-right: 10px !important;
+  flex-shrink: 0 !important;
+  transform: none !important;
+}
 .transition-track button,.service-list button,.insight-listdiv,.architecture-layer{transition:transform var(--motion-fast) var(--motion-ease),border-color var(--motion-fast) ease,background-color var(--motion-fast) ease}
 .transition-track button:hover,.service-list button:hover,.insight-listdiv:hover,.architecture-layer:hover{transform:translateX(8px)}
 .service-list button.active{transform:translateX(12px)}

@@ -68,8 +68,8 @@ function createStandardBadgeSvg(
       '<circle cx="12" cy="12" r="10" fill="none" stroke="#F47117" stroke-width="2"/><line x1="2" y1="12" x2="22" y2="12" stroke="#FEF3E5" stroke-width="1.5"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none" stroke="#FEF3E5" stroke-width="1.5"/>',
   }
 
-  const safeSub = sub.replace(/&/g, '&amp;').toUpperCase()
-  const safeCode = code.replace(/&/g, '&amp;').toUpperCase()
+  const safeSub = sub.toUpperCase().replace(/&/g, '&amp;')
+  const safeCode = code.toUpperCase().replace(/&/g, '&amp;')
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="230" height="54" viewBox="0 0 230 54">
     <rect width="228" height="52" x="1" y="1" rx="6" fill="#17182b" stroke="rgba(244, 113, 23, 0.35)" stroke-width="1.2"/>

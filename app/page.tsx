@@ -138,7 +138,7 @@ const whyInfrysPillars = [
 function Eyebrow({ children, color = '#63667A' }: { children: React.ReactNode; color?: string }) {
   return (
     <p className="eyebrow" style={{ color }}>
-      <span style={{ background: '#F47117' }} />
+      <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#F47117', marginRight: 10, flexShrink: 0 }} />
       {children}
     </p>
   )
