@@ -446,12 +446,8 @@ const EFFECTS = {
           "float aspect = u_resolution.x / max(u_resolution.y, 1.0);\n                vec2 center = u_resolution.x > 1024.0 ? vec2(aspect * 0.24, -0.02) : (u_resolution.x > 800.0 ? vec2(aspect * 0.20, -0.04) : vec2(0.0, -0.32));",
         )
         .replace(
-          "vec2 dirDownLeft = normalize(vec2(-0.8, -0.6));",
-          "vec2 dirDownLeft = normalize(vec2(-0.90, -0.42));",
-        )
-        .replace(
-          "(intensity * 0.4) / (l3.x + 0.001);",
-          "(intensity * 0.80) / (l3.x + 0.001);",
+          /float glow = intensity \/ \(l1\.x \+ 0\.001\) \+[\s\S]*?glow \+= lgt3 \* smoothstep\(2\.0, 0\.0, d3\) \* u_mouseActive \* flicker;/,
+          "float glow = 0.0;",
         )
         .replace(
           "glow += 0.04 / (distToCenter + 0.01);",
@@ -479,7 +475,7 @@ const EFFECTS = {
                 float edgeFade = 1.0 - smoothstep(0.65, 2.35, length(uv));
                 float g = max(0.0, glow * pulseMod * edgeFade);
 
-                // Controlled enterprise glow (~20% reduced outer haze, sharp bright beam core)
+                // Controlled enterprise glow (~20% reduced outer haze, sharp bright core)
                 float haloMask = 1.0 - exp(-g * 1.15);
                 float midMask = smoothstep(0.20, 0.92, g);
                 float coreMask = smoothstep(0.48, 1.62, g);
